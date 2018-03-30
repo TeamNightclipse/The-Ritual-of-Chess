@@ -1,7 +1,9 @@
 package net.katsstuff.nightclipse.somemod
 
+import net.minecraft.util.ResourceLocation
 import net.minecraftforge.fml.common.Mod
-import net.minecraftforge.fml.common.event.{FMLInitializationEvent, FMLPostInitializationEvent, FMLPreInitializationEvent}
+import net.minecraftforge.fml.common.Mod.EventHandler
+import net.minecraftforge.fml.common.event._
 
 @Mod(
   modid = SomeMod.Id,
@@ -15,8 +17,10 @@ object SomeMod {
   final val Name    = "Dont know"
   final val Version = "0.1"
 
-  def onPreInit(event: FMLPreInitializationEvent): Unit = {}
-  def onInit(event: FMLInitializationEvent): Unit = {}
-  def onPostInit(event: FMLPostInitializationEvent): Unit = {}
+  def resource(name: String): ResourceLocation = new ResourceLocation(Id, name)
+
+  @EventHandler def onPreInit(event: FMLPreInitializationEvent):   Unit = {}
+  @EventHandler def onInit(event: FMLInitializationEvent):         Unit = {}
+  @EventHandler def onPostInit(event: FMLPostInitializationEvent): Unit = {}
 
 }
