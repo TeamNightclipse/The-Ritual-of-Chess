@@ -1,7 +1,7 @@
 package net.katsstuff.nightclipse.chessmod.client
 
 import net.katsstuff.nightclipse.chessmod.item.ItemPiece
-import net.katsstuff.nightclipse.chessmod.{ChessMod, Piece}
+import net.katsstuff.nightclipse.chessmod.{ChessMod, CommonProxy, Piece}
 import net.minecraft.client.renderer.block.model.{ModelResourceLocation => MRL}
 import net.minecraft.item.ItemStack
 import net.minecraftforge.client.event.ModelRegistryEvent
@@ -20,4 +20,4 @@ object ClientProxy {
     })
   }
 }
-class ClientProxy extends ClientProxy {}
+class ClientProxy extends CommonProxy {}

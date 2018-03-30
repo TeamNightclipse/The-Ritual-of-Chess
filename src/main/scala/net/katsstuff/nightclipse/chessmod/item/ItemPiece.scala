@@ -63,7 +63,7 @@ class ItemPiece extends ItemChessBase(ChessNames.Items.Piece) {
       val i = this.getMetadata(itemstack.getMetadata)
       var iblockstate1 = relevantBlock
         .getStateForPlacement(worldIn, pos, facing, hitX, hitY, hitZ, i, player, hand)
-        .withProperty(BlockPiece.White, color == PieceColor.White)
+        .withProperty(BlockPiece.White, Boolean.box(color == PieceColor.White))
 
       if (placeBlockAt(relevantBlock, itemstack, player, worldIn, pos, facing, hitX, hitY, hitZ, iblockstate1)) {
         iblockstate1 = worldIn.getBlockState(pos)
@@ -119,7 +119,7 @@ class ItemPiece extends ItemChessBase(ChessNames.Items.Piece) {
 
   override def getUnlocalizedName(stack: ItemStack): String = {
     val Piece(tpe, color) = ItemPiece.pieceOf(stack)
-    s"$getUnlocalizedName.${tpe.name}.${color.name}"
+    s"${getUnlocalizedName()}.${tpe.name}.${color.name}"
   }
 
   override def addInformation(
@@ -135,7 +135,7 @@ class ItemPiece extends ItemChessBase(ChessNames.Items.Piece) {
     Tooltip
       .addI18n("piece.type").add(seperator).addI18n(s"piece.type.${tpe.name}").newline
       .addI18n("piece.color").add(seperator).addI18n(s"piece.color.${color.name}").newline
-      .addI18n("piece.max").add(seperator).add(tpe.max).newline
+      .addI18n("piece.max").add(seperator).add(tpe.max.toString).newline
       .build(tooltip)
     // @formatter:on
   }
