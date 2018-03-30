@@ -49,7 +49,7 @@ tasks.withType<ScalaCompile> {
 
 version = "${config["mc_version"]}-${config["version"]}-${config["build_number"]}"
 group = "net.katsstuff.nightclipse"
-base.archivesBaseName = "modjamentry"
+base.archivesBaseName = "chessmod"
 
 val mainSourceSet = java.sourceSets.get("main")
 val javaSourceSet = mainSourceSet.java
