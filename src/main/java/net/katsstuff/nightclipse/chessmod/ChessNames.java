@@ -16,4 +16,18 @@ public class ChessNames {
 
 		public static final String Piece = "piece";
 	}
+
+	public static class Potion {
+
+		public static final String FrenzyPawn = "frenzy_pawn";
+		public static final String FrenzyBishop = "frenzy_bishop";
+		public static final String FrenzyKnight = "frenzy_knight";
+		public static final String FrenzyRook = "frenzy_rook";
+		public static final String FrenzyQueen = "frenzy_queen";
+	}
+
+	public static class Entity {
+
+		public static final String SingleActivation = "single_activation";
+	}
 }

@@ -1,6 +1,32 @@
 package net.katsstuff.nightclipse.chessmod
 
-case class Piece(tpe: PieceType, color: PieceColor)
+import net.katsstuff.nightclipse.chessmod.entity.EntitySingleActivation
+import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.potion.PotionEffect
+
+case class Piece(tpe: PieceType, color: PieceColor) {
+
+  def doSingleEffect(player: EntityPlayer): EntitySingleActivation = {
+    val effect = tpe match {
+      case PieceType.Pawn   => Some(ChessPotions.FrenzyPawn)
+      case PieceType.Bishop => Some(ChessPotions.FrenzyBishop)
+      case PieceType.Knight => Some(ChessPotions.FrenzyKnight)
+      case PieceType.Rook   => Some(ChessPotions.FrenzyRook)
+      case PieceType.Queen  => Some(ChessPotions.FrenzyQueen)
+      case _                => None
+    }
+
+    effect.foreach { potion =>
+      player.addPotionEffect(new PotionEffect(potion, 20, 3))
+    }
+    val entity = new EntitySingleActivation(player, this, player.world)
+    player.world.spawnEntity(entity)
+    entity
+  }
+}
+object Piece {
+  val default = Piece(PieceType.Pawn, PieceColor.Black)
+}
 
 abstract case class PieceColor(name: String)
 object PieceColor {

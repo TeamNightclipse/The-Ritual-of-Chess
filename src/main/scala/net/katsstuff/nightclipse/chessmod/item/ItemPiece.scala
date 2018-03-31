@@ -147,7 +147,7 @@ object ItemPiece {
 
   def pieceOf(stack: ItemStack): Piece = {
     val compound = stack.getTagCompound
-    if (compound == null) Piece(PieceType.Pawn, PieceColor.Black)
+    if (compound == null) Piece.default
     else {
       val tpe   = PieceType.fromId(compound.getByte(NbtType)).get
       val color = if (compound.getBoolean(NbtIsWhite)) PieceColor.White else PieceColor.Black
