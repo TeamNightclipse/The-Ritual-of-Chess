@@ -8,11 +8,12 @@
  */
 package net.katsstuff.nightclipse.chessmod.block
 
-import net.katsstuff.nightclipse.chessmod.ChessCreativeTab
+import net.katsstuff.nightclipse.chessmod.{ChessCreativeTab, ChessMod}
 import net.minecraft.block.Block
 import net.minecraft.block.material.Material
 
 class BlockChessBase(material: Material, name: String) extends Block(material) {
   setCreativeTab(ChessCreativeTab)
+  setRegistryName(ChessMod.Id, name)
   setUnlocalizedName(name)
 }
