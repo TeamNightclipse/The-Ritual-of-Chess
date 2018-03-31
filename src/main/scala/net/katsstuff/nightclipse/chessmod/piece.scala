@@ -17,7 +17,7 @@ case class Piece(tpe: PieceType, color: PieceColor) {
     }
 
     effect.foreach { potion =>
-      player.addPotionEffect(new PotionEffect(potion, 20, 3))
+      player.addPotionEffect(new PotionEffect(potion, 600, 3))
     }
     val entity = new EntitySingleActivation(player, this, player.world)
     player.world.spawnEntity(entity)
