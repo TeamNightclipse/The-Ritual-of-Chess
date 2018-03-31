@@ -1,0 +1,16 @@
+[
+{
+  "modid": "chessmod",
+  "name": "ChessMod",
+  "description": "",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Katrix, Arekkuusu"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

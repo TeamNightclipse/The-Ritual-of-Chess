@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "facing=east,white=true": { "model": "chessmod:white_knight", "y": 90, "uvlock": false },
+        "facing=west,white=true": { "model": "chessmod:white_knight", "y": -90, "uvlock": false },
+        "facing=north,white=true": { "model": "chessmod:white_knight", "y": 0, "uvlock": false },
+        "facing=south,white=true": { "model": "chessmod:white_knight", "y": 180, "uvlock": false },
+		
+        "facing=east,white=false": { "model": "chessmod:black_knight", "y": 90, "uvlock": false },
+        "facing=west,white=false": { "model": "chessmod:black_knight", "y": -90, "uvlock": false },
+        "facing=north,white=false": { "model": "chessmod:black_knight", "y": 0, "uvlock": false },
+        "facing=south,white=false": { "model": "chessmod:black_knight", "y": 180, "uvlock": false }
+    }
+}

@@ -1,0 +1,36 @@
+itemGroup.chessmod=Chess
+
+piece.type=Type
+piece.color=Color
+piece.max=Max
+
+piece.type.king=King
+piece.type.queen=Queen
+piece.type.rook=Rook
+piece.type.knight=Knight
+piece.type.Bishop=Bishop
+piece.type.Pawn=Pawn
+
+piece.color.white=White
+piece.color.black=Black
+
+item.piece.king.white.name=Piece King White
+item.piece.queen.white.name=Piece Queen White
+item.piece.rook.white.name=Piece Rook White
+item.piece.knight.white.name=Piece Knight White
+item.piece.bishop.white.name=Piece Bishop White
+item.piece.pawn.white.name=Piece Pawn White
+
+item.piece.king.black.name=Piece King Black
+item.piece.queen.black.name=Piece Queen Black
+item.piece.rook.black.name=Piece Rook Black
+item.piece.knight.black.name=Piece Knight Black
+item.piece.bishop.black.name=Piece Bishop Black
+item.piece.pawn.black.name=Piece Pawn Black
+
+tile.piece_king.name=Piece King
+tile.piece_queen.name=Piece Queen
+tile.piece_rook.name=Piece Rook
+tile.piece_knight.name=Piece Knight
+tile.piece_bishop.name=Piece Bishop
+tile.piece_pawn.name=Piece Pawn

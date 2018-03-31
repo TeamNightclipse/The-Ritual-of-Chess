@@ -1,0 +1,94 @@
+{
+	"credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
+	"textures": {
+		"0": "chessmod:blocks/white_bishop",
+		"particle": "chessmod:blocks/white_bishop"
+	},
+	"elements": [
+		{
+			"name": "cube",
+			"from": [5.5, 0, 5.5],
+			"to": [10.5, 1, 10.5],
+			"faces": {
+				"north": {"uv": [0, 10, 5, 11], "texture": "#0"},
+				"east": {"uv": [0, 10, 5, 11], "texture": "#0"},
+				"south": {"uv": [0, 10, 5, 11], "texture": "#0"},
+				"west": {"uv": [0, 10, 5, 11], "texture": "#0"},
+				"up": {"uv": [5, 5, 10, 10], "texture": "#0"},
+				"down": {"uv": [5, 5, 10, 10], "texture": "#0"}
+			}
+		},
+		{
+			"name": "cube",
+			"from": [6.5, 1, 6.5],
+			"to": [9.5, 3, 9.5],
+			"faces": {
+				"north": {"uv": [1, 8, 4, 10], "texture": "#0"},
+				"east": {"uv": [1, 8, 4, 10], "texture": "#0"},
+				"south": {"uv": [1, 8, 4, 10], "texture": "#0"},
+				"west": {"uv": [1, 8, 4, 10], "texture": "#0"}
+			}
+		},
+		{
+			"name": "cube",
+			"from": [5.5, 3, 5.5],
+			"to": [10.5, 4, 10.5],
+			"faces": {
+				"north": {"uv": [0, 7, 5, 8], "texture": "#0"},
+				"east": {"uv": [0, 7, 5, 8], "texture": "#0"},
+				"south": {"uv": [0, 7, 5, 8], "texture": "#0"},
+				"west": {"uv": [0, 7, 5, 8], "texture": "#0"},
+				"up": {"uv": [5, 0, 10, 5], "texture": "#0"},
+				"down": {"uv": [5, 5, 10, 10], "texture": "#0"}
+			}
+		},
+		{
+			"name": "cube",
+			"from": [6.5, 4, 6.5],
+			"to": [9.5, 5, 9.5],
+			"faces": {
+				"north": {"uv": [1, 6, 4, 7], "texture": "#0"},
+				"east": {"uv": [1, 6, 4, 7], "texture": "#0"},
+				"south": {"uv": [1, 6, 4, 7], "texture": "#0"},
+				"west": {"uv": [1, 6, 4, 7], "texture": "#0"}
+			}
+		},
+		{
+			"name": "cube",
+			"from": [5.5, 5, 5.5],
+			"to": [10.5, 8, 10.5],
+			"faces": {
+				"north": {"uv": [0, 3, 5, 6], "texture": "#0"},
+				"east": {"uv": [0, 3, 5, 6], "texture": "#0"},
+				"south": {"uv": [0, 3, 5, 6], "texture": "#0"},
+				"west": {"uv": [0, 3, 5, 6], "texture": "#0"},
+				"up": {"uv": [5, 0, 10, 5], "texture": "#0"},
+				"down": {"uv": [5, 5, 10, 10], "texture": "#0"}
+			}
+		},
+		{
+			"name": "cube",
+			"from": [6.5, 8, 6.5],
+			"to": [9.5, 10, 9.5],
+			"faces": {
+				"north": {"uv": [1, 1, 4, 3], "texture": "#0"},
+				"east": {"uv": [1, 1, 4, 3], "texture": "#0"},
+				"south": {"uv": [1, 1, 4, 3], "texture": "#0"},
+				"west": {"uv": [1, 1, 4, 3], "texture": "#0"},
+				"up": {"uv": [5, 2, 8, 5], "texture": "#0"}
+			}
+		},
+		{
+			"name": "cube",
+			"from": [7.5, 10, 7.5],
+			"to": [8.5, 11, 8.5],
+			"faces": {
+				"north": {"uv": [2, 0, 3, 1], "texture": "#0"},
+				"east": {"uv": [2, 0, 3, 1], "texture": "#0"},
+				"south": {"uv": [2, 0, 3, 1], "texture": "#0"},
+				"west": {"uv": [2, 0, 3, 1], "texture": "#0"},
+				"up": {"uv": [2, 0, 3, 1], "texture": "#0"}
+			}
+		}
+	]
+}
