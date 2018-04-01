@@ -5,7 +5,7 @@ import scala.collection.JavaConverters._
 import net.katsstuff.mirror.misc.IdState
 import net.katsstuff.nightclipse.chessmod.block.BlockPiece
 import net.katsstuff.nightclipse.chessmod.effects.{PotionFrenzy, PotionFrenzyBishop, PotionFrenzyQueen}
-import net.katsstuff.nightclipse.chessmod.entity.{EntityInfo, EntityKnight, EntitySingleActivation}
+import net.katsstuff.nightclipse.chessmod.entity.{EntityInfo, EntityKnight, EntityOngoingRitual, EntitySingleActivation}
 import net.katsstuff.nightclipse.chessmod.item.ItemPiece
 import net.minecraft.block.Block
 import net.minecraft.entity.Entity
@@ -68,7 +68,8 @@ object CommonProxy {
       for {
         singleActivation <- registerEntity[EntitySingleActivation]
         knight <- registerEntity[EntityKnight]
-      } yield Seq(singleActivation, knight)
+        ongoingRitual    <- registerEntity[EntityOngoingRitual]
+      } yield Seq(singleActivation, knight, ongoingRitual)
     }: _*)
   }
 }

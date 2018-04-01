@@ -29,6 +29,7 @@ public class ChessNames {
 	public static class Entity {
 
 		public static final String SingleActivation = "single_activation";
-        public static final String Knight = "knight";
+		public static final String Knight = "knight";
+		public static final String OngoingRitual = "ongoing_ritual";
 	}
 }

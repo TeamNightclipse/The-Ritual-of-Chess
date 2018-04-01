@@ -4,7 +4,15 @@ import scala.collection.JavaConverters._
 
 import net.katsstuff.mirror.data.Vector3
 import net.katsstuff.nightclipse.chessmod.network.PieceDataSerializer
-import net.katsstuff.nightclipse.chessmod.{ChessNames, ChessPotions, Piece, PieceColor, PieceType}
+import net.katsstuff.nightclipse.chessmod.{
+  ChessMonsterSpawner,
+  ChessNames,
+  ChessPotions,
+  MonsterSpawnerSettings,
+  Piece,
+  PieceColor,
+  PieceType
+}
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.nbt.{NBTTagCompound, NBTTagList}
@@ -26,42 +34,16 @@ object EntitySingleActivation {
 
   val Piece: DataParameter[Piece] = EntityDataManager.createKey(classOf[EntitySingleActivation], PieceDataSerializer)
 }
-class EntitySingleActivation(player: EntityPlayer, _piece: Piece, _world: World) extends Entity(_world) { self =>
+class EntitySingleActivation(player: EntityPlayer, _piece: Piece, _world: World) extends Entity(_world) {
 
   def this(world: World) = this(null, null, world)
 
   var takenDamage = 0F
 
-  //TODO: Replace with custom spawning logic
-  private val mobSpawnerLogic = new MobSpawnerBaseLogic() {
-    override def broadcastEvent(id: Int): Unit = ()
-    override def getSpawnerWorld: World = self.world
-    override def getSpawnerPosition = new BlockPos(player)
-  }
-  mobSpawnerLogic.readFromNBT {
-    val compound = new NBTTagCompound
-    compound.setShort("Delay", 7)
-
-    val potentialsList = new NBTTagList
-    for(entityTpe <- Seq("minecraft:zombie", "minecraft:skeleton", "minecraft:spider")) {
-      val spawnDataCompound = new NBTTagCompound
-      spawnDataCompound.setString("id", entityTpe)
-      potentialsList.appendTag(spawnDataCompound)
-    }
-    compound.setTag("SpawnPotentials", potentialsList)
-
-    compound.setShort("MinSpawnDelay", 3)
-    compound.setShort("MaxSpawnDelay", 10)
-    compound.setShort("SpawnCount", 1)
-
-    compound.setShort("MaxNearbyEntities", 30)
-    compound.setShort("RequiredPlayerRange", 32)
-    compound.setShort("SpawnRange", 32)
-
-    compound
-  }
-
   piece = if (!world.isRemote) _piece else Piece.default
+
+  implicit val spawnerSettings: MonsterSpawnerSettings =
+    MonsterSpawnerSettings.defaultSpawnlist(ticksBetween = 8, maxJitter = 0, xzRange = 16, yRange = 8)
 
   if (!world.isRemote && piece.tpe == PieceType.Knight || piece.tpe == PieceType.Rook) {
     MinecraftForge.EVENT_BUS.register(this)
@@ -78,7 +60,7 @@ class EntitySingleActivation(player: EntityPlayer, _piece: Piece, _world: World)
     if (!world.isRemote && ticksExisted > 40) {
       piece match {
         case Piece(PieceType.Pawn, _) =>
-          mobSpawnerLogic.updateSpawner()
+          ChessMonsterSpawner.spawnAround(player)
 
           if (ticksExisted > 300) {
             Piece(PieceType.Queen, piece.color).doSingleEffect(player)
@@ -126,7 +108,7 @@ class EntitySingleActivation(player: EntityPlayer, _piece: Piece, _world: World)
   @SubscribeEvent
   def onJump(event: LivingJumpEvent): Unit = {
     val living = event.getEntityLiving
-    if (piece.tpe == PieceType.Knight && living == player) {
+    if (piece.tpe == PieceType.Knight && living == player && !player.isSneaking) {
       val world  = living.world
       val start  = new Vector3(living)
       val end    = start.offset(Vector3.WrappedVec3d(living.getLookVec), 32D)

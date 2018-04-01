@@ -1,6 +1,7 @@
 package net.katsstuff.nightclipse.chessmod
 
 import net.katsstuff.nightclipse.chessmod.client.ClientProxy
+import net.katsstuff.nightclipse.chessmod.rituals.{RitualHandler, Rituals}
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.{FMLCommonHandler, Mod, SidedProxy}
@@ -19,6 +20,8 @@ object ChessMod {
   final val Id      = "chessmod"
   final val Name    = "ChessMod"
   final val Version = "0.1"
+
+  lazy val ritualHandler = RitualHandler(Rituals.all)
 
   MinecraftForge.EVENT_BUS.register(CommonProxy)
 
