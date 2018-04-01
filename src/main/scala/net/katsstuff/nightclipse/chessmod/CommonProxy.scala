@@ -2,11 +2,10 @@ package net.katsstuff.nightclipse.chessmod
 
 import scala.reflect.ClassTag
 import scala.collection.JavaConverters._
-
 import net.katsstuff.mirror.misc.IdState
 import net.katsstuff.nightclipse.chessmod.block.BlockPiece
 import net.katsstuff.nightclipse.chessmod.effects.{PotionFrenzy, PotionFrenzyBishop, PotionFrenzyQueen}
-import net.katsstuff.nightclipse.chessmod.entity.{EntityInfo, EntitySingleActivation}
+import net.katsstuff.nightclipse.chessmod.entity.{EntityInfo, EntityKnight, EntitySingleActivation}
 import net.katsstuff.nightclipse.chessmod.item.ItemPiece
 import net.minecraft.block.Block
 import net.minecraft.entity.Entity
@@ -68,11 +67,11 @@ object CommonProxy {
     event.getRegistry.registerAll(IdState.run0 {
       for {
         singleActivation <- registerEntity[EntitySingleActivation]
-      } yield Seq(singleActivation)
+        knight <- registerEntity[EntityKnight]
+      } yield Seq(singleActivation, knight)
     }: _*)
-
   }
 }
 class CommonProxy {
-
+  def preInit(): Unit = {}
 }

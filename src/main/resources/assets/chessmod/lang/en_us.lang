@@ -8,8 +8,8 @@ piece.type.king=King
 piece.type.queen=Queen
 piece.type.rook=Rook
 piece.type.knight=Knight
-piece.type.Bishop=Bishop
-piece.type.Pawn=Pawn
+piece.type.bishop=Bishop
+piece.type.pawn=Pawn
 
 piece.color.white=White
 piece.color.black=Black
@@ -34,3 +34,5 @@ tile.piece_rook.name=Piece Rook
 tile.piece_knight.name=Piece Knight
 tile.piece_bishop.name=Piece Bishop
 tile.piece_pawn.name=Piece Pawn
+
+entity.knight.name=Knight

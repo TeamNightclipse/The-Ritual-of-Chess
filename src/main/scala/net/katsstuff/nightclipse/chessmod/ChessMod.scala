@@ -36,7 +36,7 @@ object ChessMod {
   )
   var proxy: CommonProxy = _
 
-  @EventHandler def onPreInit(event: FMLPreInitializationEvent):   Unit = {}
+  @EventHandler def onPreInit(event: FMLPreInitializationEvent):   Unit = proxy.preInit()
   @EventHandler def onInit(event: FMLInitializationEvent):         Unit = {}
   @EventHandler def onPostInit(event: FMLPostInitializationEvent): Unit = {}
 
