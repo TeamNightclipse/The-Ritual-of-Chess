@@ -28,7 +28,7 @@ object EntitySingleActivation {
 }
 class EntitySingleActivation(player: EntityPlayer, _piece: Piece, _world: World) extends Entity(_world) { self =>
 
-  def this(world: World) = this(null, world)
+  def this(world: World) = this(null, null, world)
 
   var takenDamage = 0F
 
