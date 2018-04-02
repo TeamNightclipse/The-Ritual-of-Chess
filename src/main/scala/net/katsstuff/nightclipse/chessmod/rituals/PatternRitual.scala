@@ -1,12 +1,15 @@
 package net.katsstuff.nightclipse.chessmod.rituals
+
+import scala.collection.JavaConverters._
+
 import net.katsstuff.nightclipse.chessmod.{ChessBlocks, ChessMonsterSpawner, MonsterSpawnerSettings}
 import net.katsstuff.nightclipse.chessmod.entity.EntityOngoingRitual
 import net.minecraft.block.state.pattern.BlockPattern
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
 import net.minecraft.util.EnumFacing
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.text.{ITextComponent, TextComponentTranslation}
+import net.minecraft.util.math.{AxisAlignedBB, BlockPos}
+import net.minecraft.util.text.{ITextComponent, TextComponentString, TextComponentTranslation}
 import net.minecraft.world.World
 
 case class PatternRitual(
@@ -53,6 +56,20 @@ case class PatternRitual(
       ChessMonsterSpawner.spawnAround(entity)(spawnerSettings)
       None
     }
+
+
+  override def doPlayerInfo(entity: EntityOngoingRitual): Unit = {
+    val remainingTicks      = duration - entity.ticksExisted
+    val remainingSecondsAll = remainingTicks / 20
+    val remainingMinutes    = remainingSecondsAll / 60
+    val remainingSeconds    = remainingSecondsAll % 60
+
+    val message = new TextComponentString(s"$remainingMinutes:$remainingSeconds")
+    entity.world
+      .getEntitiesWithinAABB(classOf[EntityPlayer], new AxisAlignedBB(entity.centralBlock).grow(32D))
+      .asScala
+      .foreach(_.sendMessage(message))
+  }
 
   def allowsOtherUp: Boolean = false
 }

@@ -1,6 +1,11 @@
 package net.katsstuff.nightclipse.chessmod.block
 
+import java.util.Random
+
+import scala.collection.JavaConverters._
+
 import net.katsstuff.nightclipse.chessmod.ChessNames
+import net.katsstuff.nightclipse.chessmod.entity.EntityOngoingRitual
 import net.minecraft.block.BlockHorizontal
 import net.minecraft.block.material.Material
 import net.minecraft.block.properties.PropertyDirection
@@ -16,6 +21,18 @@ class BlockChessTimer extends BlockChessBase(Material.WOOD, ChessNames.Block.Che
   this.setDefaultState(
     blockState.getBaseState.withProperty(BlockChessTimer.Facing, EnumFacing.NORTH)
   )
+
+  override def tickRate(world: World): Int = 200
+
+  override def updateTick(world: World, pos: BlockPos, state: IBlockState, rand: Random): Unit =
+    world
+      .getEntitiesWithinAABB(classOf[EntityOngoingRitual], new AxisAlignedBB(pos).grow(32D), null)
+      .asScala
+      .sortBy(_.getDistanceSq(pos))
+      .headOption
+      .foreach { closestRitual =>
+        closestRitual.ritual.doPlayerInfo(closestRitual)
+      }
 
   override def isFullCube(state: IBlockState): Boolean = false
 

@@ -15,4 +15,5 @@ trait Ritual {
 
   def tickServer(entity: EntityOngoingRitual): Option[Either[ITextComponent, ItemStack]]
 
+  def doPlayerInfo(closestRitual: EntityOngoingRitual): Unit
 }

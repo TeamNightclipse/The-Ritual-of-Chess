@@ -16,6 +16,7 @@ public class ChessNames {
 	public static class Items {
 
 		public static final String Piece = "piece";
+		public static final String Timer = "timer";
 	}
 
 	public static class Potion {
