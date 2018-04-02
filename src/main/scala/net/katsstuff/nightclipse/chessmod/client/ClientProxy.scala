@@ -2,6 +2,7 @@ package net.katsstuff.nightclipse.chessmod.client
 
 import net.katsstuff.nightclipse.chessmod.client.render.RenderKnight
 import net.katsstuff.nightclipse.chessmod.entity.EntityKnight
+import net.katsstuff.mirror.client.helper.ModelHelper
 import net.katsstuff.nightclipse.chessmod.item.ItemPiece
 import net.katsstuff.nightclipse.chessmod.{ChessMod, CommonProxy, Piece}
 import net.minecraft.client.renderer.block.model.{ModelBakery, ModelResourceLocation => MRL}
@@ -16,7 +17,7 @@ object ClientProxy {
 
   @SubscribeEvent
   def registerModels(event: ModelRegistryEvent): Unit = {
-    import net.katsstuff.nightclipse.chessmod.{PieceColor, PieceType, ChessItems => items, ChessBlocks => blocks}
+    import net.katsstuff.nightclipse.chessmod.{PieceColor, PieceType, ChessBlocks => blocks, ChessItems => items}
 
     ModelLoader.setCustomMeshDefinition(items.Piece, (stack: ItemStack) => {
       val Piece(tpe, color) = ItemPiece.pieceOf(stack)
@@ -26,8 +27,9 @@ object ClientProxy {
       tpe   <- PieceType.all
       color <- PieceColor.all
     } yield new ResourceLocation(ChessMod.Id, s"piece/${color.name}_${tpe.name}")
-    ModelBakery.registerItemVariants(items.Piece, allPieces.toArray: _*)
-    ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(blocks.ChessTimer), 0, new MRL(blocks.ChessTimer.getRegistryName, ""))
+    ModelBakery.registerItemVariants(items.Piece, allPieces: _*)
+
+    ModelHelper.registerModel(items.ChessTimer, 0)
   }
 }
 class ClientProxy extends CommonProxy {

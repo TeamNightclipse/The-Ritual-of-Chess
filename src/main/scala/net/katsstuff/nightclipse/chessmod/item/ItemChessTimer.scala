@@ -10,7 +10,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.{EnumActionResult, EnumFacing, EnumHand, SoundCategory}
 import net.minecraft.world.World
 
-class ItemChessTimer extends ItemChessBase(ChessNames.Items.Timer) {
+class ItemChessTimer extends ItemChessBase(ChessNames.Items.ChessTimer) {
   setMaxStackSize(1)
 
   override def onItemUse(

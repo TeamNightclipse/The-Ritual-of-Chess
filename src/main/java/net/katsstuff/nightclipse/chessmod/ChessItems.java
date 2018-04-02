@@ -8,4 +8,7 @@ public class ChessItems {
 
 	@GameRegistry.ObjectHolder(ChessNames.Items.Piece)
 	public static final Item Piece = new Item();
+
+	@GameRegistry.ObjectHolder(ChessNames.Items.ChessTimer)
+	public static final Item ChessTimer = new Item();
 }
