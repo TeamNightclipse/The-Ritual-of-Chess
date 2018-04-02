@@ -14,25 +14,31 @@ piece.type.pawn=Pawn
 piece.color.white=White
 piece.color.black=Black
 
-item.piece.king.white.name=Piece King White
-item.piece.queen.white.name=Piece Queen White
-item.piece.rook.white.name=Piece Rook White
-item.piece.knight.white.name=Piece Knight White
-item.piece.bishop.white.name=Piece Bishop White
-item.piece.pawn.white.name=Piece Pawn White
+item.piece.king.white.name=White king
+item.piece.queen.white.name=White queen
+item.piece.rook.white.name=White rook
+item.piece.knight.white.name=White knight
+item.piece.bishop.white.name=White bishop
+item.piece.pawn.white.name=White pawn
 
-item.piece.king.black.name=Piece King Black
-item.piece.queen.black.name=Piece Queen Black
-item.piece.rook.black.name=Piece Rook Black
-item.piece.knight.black.name=Piece Knight Black
-item.piece.bishop.black.name=Piece Bishop Black
-item.piece.pawn.black.name=Piece Pawn Black
+item.piece.king.black.name=Black king
+item.piece.queen.black.name=Black queen
+item.piece.rook.black.name=Black rook
+item.piece.knight.black.name=Black knight
+item.piece.bishop.black.name=Black bishop
+item.piece.pawn.black.name=Black pawn
 
-tile.piece_king.name=Piece King
-tile.piece_queen.name=Piece Queen
-tile.piece_rook.name=Piece Rook
-tile.piece_knight.name=Piece Knight
-tile.piece_bishop.name=Piece Bishop
-tile.piece_pawn.name=Piece Pawn
+tile.piece_king.name=King
+tile.piece_queen.name=Queen
+tile.piece_rook.name=Rook
+tile.piece_knight.name=Knight
+tile.piece_bishop.name=Bishop
+tile.piece_pawn.name=Pawn
+
+effect.frenzy.pawn=Pawn Frenzy
+effect.frenzy.bishop=Bishop Frenzy
+effect.frenzy.knight=Knight Frenzy
+effect.frenzy.rook=Rook Frenzy
+effect.frenzy.queen=Queen Frenzy
 
 entity.knight.name=Knight
