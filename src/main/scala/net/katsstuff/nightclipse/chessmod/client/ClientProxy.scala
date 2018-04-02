@@ -1,12 +1,15 @@
 package net.katsstuff.nightclipse.chessmod.client
 
-import net.katsstuff.nightclipse.chessmod.client.render.RenderKnight
-import net.katsstuff.nightclipse.chessmod.entity.EntityKnight
+import scala.reflect.ClassTag
+
 import net.katsstuff.mirror.client.helper.ModelHelper
+import net.katsstuff.nightclipse.chessmod.client.render.{RenderKnight, RenderOngoingRitual, RenderSingleActivation}
 import net.katsstuff.nightclipse.chessmod.item.ItemPiece
 import net.katsstuff.nightclipse.chessmod.{ChessMod, CommonProxy, Piece}
 import net.minecraft.client.renderer.block.model.{ModelBakery, ModelResourceLocation => MRL}
-import net.minecraft.item.{Item, ItemStack}
+import net.minecraft.client.renderer.entity.{Render, RenderManager}
+import net.minecraft.entity.Entity
+import net.minecraft.item.ItemStack
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.client.event.ModelRegistryEvent
 import net.minecraftforge.client.model.ModelLoader
@@ -34,6 +37,14 @@ object ClientProxy {
 }
 class ClientProxy extends CommonProxy {
   override def preInit(): Unit = {
-    RenderingRegistry.registerEntityRenderingHandler[EntityKnight](classOf[EntityKnight], manager => RenderKnight(manager))
+    def registerRenderer[A <: Entity](f: RenderManager => Render[_ <: A])(implicit classTag: ClassTag[A]): Unit =
+      RenderingRegistry.registerEntityRenderingHandler(
+        classTag.runtimeClass.asInstanceOf[Class[A]],
+        (manager: RenderManager) => f(manager)
+      )
+
+    registerRenderer(new RenderKnight(_))
+    registerRenderer(new RenderSingleActivation(_))
+    registerRenderer(new RenderOngoingRitual(_))
   }
 }
