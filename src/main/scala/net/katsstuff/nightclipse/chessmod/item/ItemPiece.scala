@@ -48,9 +48,11 @@ class ItemPiece extends ItemChessBase(ChessNames.Items.Piece) {
     val iblockstate = worldIn.getBlockState(pos)
     val block       = iblockstate.getBlock
 
-    if (!itemstack.isEmpty && player.canPlayerEdit(pos, facing, itemstack) && worldIn.mayPlace(
+    val posWithOffset = if (!block.isReplaceable(worldIn, pos)) pos.offset(facing) else pos
+
+    if (!itemstack.isEmpty && player.canPlayerEdit(posWithOffset, facing, itemstack) && worldIn.mayPlace(
           block,
-          pos,
+          posWithOffset,
           false,
           facing,
           null
@@ -58,19 +60,18 @@ class ItemPiece extends ItemChessBase(ChessNames.Items.Piece) {
       val Piece(tpe, color) = ItemPiece.pieceOf(itemstack)
       val relevantBlock     = BlockPiece.ofPieceType(tpe)
 
-      val posWithOffset = if (!block.isReplaceable(worldIn, pos)) pos.offset(facing) else pos
 
       val i = this.getMetadata(itemstack.getMetadata)
       var iblockstate1 = relevantBlock
-        .getStateForPlacement(worldIn, pos, facing, hitX, hitY, hitZ, i, player, hand)
+        .getStateForPlacement(worldIn, posWithOffset, facing, hitX, hitY, hitZ, i, player, hand)
         .withProperty(BlockPiece.White, Boolean.box(color == PieceColor.White))
 
-      if (placeBlockAt(relevantBlock, itemstack, player, worldIn, pos, facing, hitX, hitY, hitZ, iblockstate1)) {
-        iblockstate1 = worldIn.getBlockState(pos)
-        val soundType = iblockstate1.getBlock.getSoundType(iblockstate1, worldIn, pos, player)
+      if (placeBlockAt(relevantBlock, itemstack, player, worldIn, posWithOffset, facing, hitX, hitY, hitZ, iblockstate1)) {
+        iblockstate1 = worldIn.getBlockState(posWithOffset)
+        val soundType = iblockstate1.getBlock.getSoundType(iblockstate1, worldIn, posWithOffset, player)
         worldIn.playSound(
           player,
-          pos,
+          posWithOffset,
           soundType.getPlaceSound,
           SoundCategory.BLOCKS,
           (soundType.getVolume + 1.0F) / 2.0F,

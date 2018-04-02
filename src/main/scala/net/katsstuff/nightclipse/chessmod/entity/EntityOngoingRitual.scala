@@ -19,7 +19,7 @@ object EntityOngoingRitual {
 class EntityOngoingRitual(val player: EntityPlayer, val ritual: Ritual, val centralBlock: BlockPos, _world: World)
     extends Entity(_world) {
 
-  def this(world: World) = this(null, null, world)
+  def this(world: World) = this(null, null, null, world)
 
   if(ritual != null) {
     ritual.beginActivation(world, centralBlock, player)
