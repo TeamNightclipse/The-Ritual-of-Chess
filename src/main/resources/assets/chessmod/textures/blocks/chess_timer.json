@@ -1,0 +1,160 @@
+{
+	"credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
+	"textures": {
+		"0": "blocks/chess_timer",
+		"1": "blocks/chess_timer_back",
+		"2": "blocks/chess_timer_front",
+		"particle": "blocks/chess_timer"
+	},
+	"elements": [
+		{
+			"name": "cube",
+			"from": [3.5, 0, 5.5],
+			"to": [12.5, 9, 10.5],
+			"faces": {
+				"north": {"uv": [0, 0, 9, 9], "texture": "#0"},
+				"east": {"uv": [9, 0, 14, 9], "texture": "#0"},
+				"south": {"uv": [0, 0, 9, 9], "texture": "#0"},
+				"west": {"uv": [9, 0, 14, 9], "texture": "#0"},
+				"up": {"uv": [0, 9, 9, 14], "texture": "#0"},
+				"down": {"uv": [0, 9, 9, 14], "texture": "#0"}
+			}
+		},
+		{
+			"name": "cube",
+			"from": [5.5, 9, 6.5],
+			"to": [7.5, 10, 7.5],
+			"faces": {
+				"north": {"uv": [14, 14, 16, 15], "texture": "#0"},
+				"east": {"uv": [14, 14, 15, 15], "texture": "#0"},
+				"south": {"uv": [14, 14, 16, 15], "texture": "#0"},
+				"west": {"uv": [15, 14, 16, 15], "texture": "#0"}
+			}
+		},
+		{
+			"name": "cube",
+			"from": [4.5, 10, 6.5],
+			"to": [8.5, 11, 7.5],
+			"faces": {
+				"north": {"uv": [12, 13, 16, 14], "texture": "#0"},
+				"east": {"uv": [15, 14, 16, 15], "texture": "#0"},
+				"south": {"uv": [12, 13, 16, 14], "texture": "#0"},
+				"west": {"uv": [13, 13, 14, 14], "texture": "#0"},
+				"up": {"uv": [12, 13, 16, 14], "texture": "#0"},
+				"down": {"uv": [12, 13, 16, 14], "texture": "#0"}
+			}
+		},
+		{
+			"name": "cube",
+			"from": [8.5, 9, 8.5],
+			"to": [10.5, 10, 9.5],
+			"faces": {
+				"north": {"uv": [12, 15, 14, 16], "texture": "#0"},
+				"east": {"uv": [13, 14, 14, 15], "texture": "#0"},
+				"south": {"uv": [12, 15, 14, 16], "texture": "#0"},
+				"west": {"uv": [13, 15, 14, 16], "texture": "#0"},
+				"up": {"uv": [12, 15, 14, 16], "texture": "#0"},
+				"down": {"uv": [12, 15, 14, 16], "texture": "#0"}
+			}
+		},
+		{
+			"name": "cube",
+			"from": [7.5, 10, 8.5],
+			"to": [11.5, 11, 9.5],
+			"faces": {
+				"north": {"uv": [12, 14, 16, 15], "texture": "#0"},
+				"east": {"uv": [12, 14, 13, 15], "texture": "#0"},
+				"south": {"uv": [12, 14, 16, 15], "texture": "#0"},
+				"west": {"uv": [13, 14, 14, 15], "texture": "#0"},
+				"up": {"uv": [12, 14, 16, 15], "texture": "#0"},
+				"down": {"uv": [12, 14, 16, 15], "texture": "#0"}
+			}
+		},
+		{
+			"name": "cube",
+			"from": [3.5, 0, 5.499999999999999],
+			"to": [12.5, 9, 10.5],
+			"faces": {
+				"north": {
+					"uv": [3.5, 3.5, 12.5, 12.5],
+					"texture": "#2"
+				},
+				"east": {
+					"uv": [0, 0, 6.000000000000001, 7],
+					"texture": "#missing"
+				},
+				"south": {
+					"uv": [3.5, 3.5, 12.5, 12.5],
+					"texture": "#1"
+				},
+				"west": {
+					"uv": [0, 0, 6.000000000000001, 7],
+					"texture": "#missing"
+				},
+				"up": {
+					"uv": [0, 0, 7, 6.000000000000001],
+					"texture": "#missing"
+				},
+				"down": {
+					"uv": [0, 0, 7, 6.000000000000001],
+					"texture": "#missing"
+				}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"scale": [0.375, 0.375, 0.375],
+			"rotation": [75, 45, 0],
+			"translation": [0, 2, 0]
+		},
+		"thirdperson_lefthand": {
+			"scale": [0.375, 0.375, 0.375],
+			"rotation": [75, 45, 0],
+			"translation": [0, 2, 0]
+		},
+		"firstperson_righthand": {
+			"scale": [0.75, 0.75, 0.75],
+			"rotation": [0, 45, 0],
+			"translation": [0, 3, 0]
+		},
+		"firstperson_lefthand": {
+			"scale": [0.75, 0.75, 0.75],
+			"rotation": [0, 225, 0],
+			"translation": [0, 3, 0]
+		},
+		"head": {"translation": [0, 14.5, 0]},
+		"ground": {
+			"scale": [0.5, 0.5, 0.5],
+			"rotation": [0, 0, 0],
+			"translation": [0, 3, 0]
+		},
+		"fixed": {
+			"rotation": [0, 0, 0],
+			"translation": [0, 3, -3]
+		},
+		"gui": {
+			"scale": [0.625, 0.625, 0.625],
+			"rotation": [30, 225, 0],
+			"translation": [0, 2, 0]
+		}
+	},
+	"groups": [
+		0,
+		{
+			"name": "group",
+			"isOpen": false,
+			"shade": true,
+			"display": {"visibility": true, "autouv": true},
+			"children": [1, 2]
+		},
+		{
+			"name": "group",
+			"isOpen": false,
+			"shade": true,
+			"display": {"visibility": true, "autouv": true},
+			"children": [3, 4]
+		},
+		5
+	]
+}
