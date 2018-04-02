@@ -12,16 +12,19 @@ import net.minecraft.block.Block
 import net.minecraft.block.state.IBlockState
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.creativetab.CreativeTabs
+import net.minecraft.entity.EntityLivingBase
 import net.minecraft.entity.player.{EntityPlayer, EntityPlayerMP}
 import net.minecraft.item.{ItemBlock, ItemStack}
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.{EnumActionResult, EnumFacing, EnumHand, NonNullList, SoundCategory}
+import net.minecraft.util.{ActionResult, EnumActionResult, EnumFacing, EnumHand, NonNullList, SoundCategory}
 import net.minecraft.world.World
 
 class ItemPiece extends ItemChessBase(ChessNames.Items.Piece) {
   setHasSubtypes(true)
   setMaxDamage(0)
+
+  override def getItemStackLimit(stack: ItemStack): Int = ItemPiece.pieceOf(stack).tpe.max
 
   override def getSubItems(tab: CreativeTabs, items: NonNullList[ItemStack]): Unit = {
     val allPieces = for {
@@ -30,6 +33,36 @@ class ItemPiece extends ItemChessBase(ChessNames.Items.Piece) {
     } yield Piece(tpe, color)
 
     items.addAll(allPieces.map(ItemPiece.stackOf).asJava)
+  }
+
+  override def onItemRightClick(world: World, player: EntityPlayer, hand: EnumHand): ActionResult[ItemStack] = {
+    val stack = player.getHeldItem(hand)
+    player.setActiveHand(hand)
+    new ActionResult[ItemStack](EnumActionResult.SUCCESS, stack)
+  }
+
+  override def onPlayerStoppedUsing(
+      stack: ItemStack,
+      world: World,
+      entityLiving: EntityLivingBase,
+      timeLeft: Int
+  ): Unit = {
+    entityLiving match {
+      case player: EntityPlayer =>
+        val piece = ItemPiece.pieceOf(stack)
+        if(!world.isRemote) {
+          world.spawnEntity(piece.doSingleEffect(player))
+        }
+
+        if (!player.capabilities.isCreativeMode) {
+          stack.shrink(1)
+          if (stack.isEmpty) player.inventory.deleteStack(stack)
+        }
+
+      case _ =>
+    }
+
+    super.onPlayerStoppedUsing(stack, world, entityLiving, timeLeft)
   }
 
   //Mostly copy pasted from ItemBlock with a few changes
@@ -50,23 +83,28 @@ class ItemPiece extends ItemChessBase(ChessNames.Items.Piece) {
 
     val posWithOffset = if (!block.isReplaceable(worldIn, pos)) pos.offset(facing) else pos
 
-    if (!itemstack.isEmpty && player.canPlayerEdit(posWithOffset, facing, itemstack) && worldIn.mayPlace(
-          block,
-          posWithOffset,
-          false,
-          facing,
-          null
-        )) {
+    if (player.isSneaking && !itemstack.isEmpty && player.canPlayerEdit(posWithOffset, facing, itemstack) && worldIn
+          .mayPlace(block, posWithOffset, false, facing, null)) {
       val Piece(tpe, color) = ItemPiece.pieceOf(itemstack)
       val relevantBlock     = BlockPiece.ofPieceType(tpe)
-
 
       val i = this.getMetadata(itemstack.getMetadata)
       var iblockstate1 = relevantBlock
         .getStateForPlacement(worldIn, posWithOffset, facing, hitX, hitY, hitZ, i, player, hand)
         .withProperty(BlockPiece.White, Boolean.box(color == PieceColor.White))
 
-      if (placeBlockAt(relevantBlock, itemstack, player, worldIn, posWithOffset, facing, hitX, hitY, hitZ, iblockstate1)) {
+      if (placeBlockAt(
+            relevantBlock,
+            itemstack,
+            player,
+            worldIn,
+            posWithOffset,
+            facing,
+            hitX,
+            hitY,
+            hitZ,
+            iblockstate1
+          )) {
         iblockstate1 = worldIn.getBlockState(posWithOffset)
         val soundType = iblockstate1.getBlock.getSoundType(iblockstate1, worldIn, posWithOffset, player)
         worldIn.playSound(
