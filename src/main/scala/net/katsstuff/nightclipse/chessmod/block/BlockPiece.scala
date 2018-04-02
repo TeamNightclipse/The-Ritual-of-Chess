@@ -6,7 +6,7 @@ import net.minecraft.block.material.Material
 import net.minecraft.block.properties.{PropertyBool, PropertyDirection}
 import net.minecraft.block.state.{BlockFaceShape, BlockStateContainer, IBlockState}
 import net.minecraft.entity.EntityLivingBase
-import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.{AxisAlignedBB, BlockPos}
 import net.minecraft.util.{EnumFacing, Mirror, Rotation}
 import net.minecraft.world.{IBlockAccess, World}
 
@@ -24,6 +24,9 @@ class BlockPiece(piece: PieceType) extends BlockChessBase(Material.ROCK, s"piece
     BlockFaceShape.UNDEFINED
 
   override def isOpaqueCube(state: IBlockState) = false
+
+  override def getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB =
+    BlockPiece.BoundingBox
 
   override def getStateForPlacement(
       worldIn: World,
@@ -59,6 +62,8 @@ class BlockPiece(piece: PieceType) extends BlockChessBase(Material.ROCK, s"piece
     state.withRotation(mirrorIn.toRotation(state.getValue(BlockPiece.Facing)))
 }
 object BlockPiece {
+  val BoundingBox: AxisAlignedBB = new AxisAlignedBB(0.34375D, 0, 0.34375D, 0.65625, 0.65625, 0.65625)
+
   val White:  PropertyBool      = PropertyBool.create("white")
   val Facing: PropertyDirection = BlockHorizontal.FACING
 
