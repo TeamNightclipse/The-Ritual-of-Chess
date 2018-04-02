@@ -8,10 +8,11 @@
  */
 package net.katsstuff.nightclipse.chessmod
 
+import net.katsstuff.nightclipse.chessmod.item.ItemPiece
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.item.ItemStack
 
 object ChessCreativeTab extends CreativeTabs(ChessMod.Id) {
 
-  override def getTabIconItem: ItemStack = new ItemStack(ChessBlocks.PieceKing)
+  override def getTabIconItem: ItemStack = ItemPiece.stackOf(Piece(PieceType.King, PieceColor.Black))
 }
