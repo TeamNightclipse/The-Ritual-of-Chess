@@ -1,16 +1,16 @@
 package net.katsstuff.nightclipse.chessmod
 
-import scala.reflect.ClassTag
 import scala.collection.JavaConverters._
+import scala.reflect.ClassTag
 
 import net.katsstuff.mirror.misc.IdState
 import net.katsstuff.nightclipse.chessmod.block.{BlockChessTimer, BlockPiece}
-import net.katsstuff.nightclipse.chessmod.effects.{PotionFrenzy, PotionFrenzyBishop, PotionFrenzyQueen}
+import net.katsstuff.nightclipse.chessmod.effects.{PotionFrenzy, PotionFrenzyBishop, PotionFrenzyQueen, PotionFrenzyRook}
 import net.katsstuff.nightclipse.chessmod.entity.{EntityInfo, EntityKnight, EntityOngoingRitual, EntitySingleActivation}
 import net.katsstuff.nightclipse.chessmod.item.{ItemChessTimer, ItemPiece}
 import net.minecraft.block.Block
 import net.minecraft.entity.Entity
-import net.minecraft.item.{Item, ItemBlock}
+import net.minecraft.item.Item
 import net.minecraft.potion.Potion
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
@@ -37,10 +37,10 @@ object CommonProxy {
   @SubscribeEvent
   def registerPotions(event: RegistryEvent.Register[Potion]): Unit = {
     event.getRegistry.registerAll(
-      new PotionFrenzy(ChessNames.Potion.FrenzyPawn),
+      new PotionFrenzy(ChessNames.Potion.FrenzyPawn, "effect.frenzy.pawn", "pawn"),
       new PotionFrenzyBishop,
-      new PotionFrenzy(ChessNames.Potion.FrenzyKnight),
-      new PotionFrenzy(ChessNames.Potion.FrenzyRook),
+      new PotionFrenzy(ChessNames.Potion.FrenzyKnight, "effect.frenzy.knight", "knight"),
+      new PotionFrenzyRook,
       new PotionFrenzyQueen
     )
   }

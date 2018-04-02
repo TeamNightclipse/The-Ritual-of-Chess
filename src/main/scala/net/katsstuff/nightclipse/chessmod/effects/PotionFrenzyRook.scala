@@ -4,8 +4,8 @@ import net.katsstuff.nightclipse.chessmod.ChessNames
 import net.minecraft.entity.SharedMonsterAttributes
 import net.minecraft.entity.player.EntityPlayer
 
-class PotionFrenzyRook extends PotionFrenzy(ChessNames.Potion.FrenzyRook) {
-  registerPotionAttributeModifier(SharedMonsterAttributes.ATTACK_DAMAGE, "98cad5b9-bcaa-43a2-9c57-3d7cb9cb94d3", 1D, 2)
-  registerPotionAttributeModifier(EntityPlayer.REACH_DISTANCE, "b4f3991b-0fc5-4eba-804a-bc82060f4ef7", 3D, 2)
+class PotionFrenzyRook extends PotionFrenzy(ChessNames.Potion.FrenzyRook, "effect.frenzy.rook", "rook") {
+  registerPotionAttributeModifier(SharedMonsterAttributes.ATTACK_DAMAGE, "59b5ada4-4a93-4101-80c9-1a786ad1c244", 1D, 2)
+  registerPotionAttributeModifier(EntityPlayer.REACH_DISTANCE, "be640778-aa80-4a08-bb41-622d22eeb110", 3D, 2)
 
 }

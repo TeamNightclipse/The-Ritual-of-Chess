@@ -4,7 +4,7 @@ import net.katsstuff.nightclipse.chessmod.ChessNames
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.entity.{EntityLivingBase, SharedMonsterAttributes}
 
-class PotionFrenzyQueen extends PotionFrenzy(ChessNames.Potion.FrenzyQueen) {
+class PotionFrenzyQueen extends PotionFrenzy(ChessNames.Potion.FrenzyQueen, "effect.frenzy.queen", "queen") {
   registerPotionAttributeModifier(SharedMonsterAttributes.ATTACK_DAMAGE, "98cad5b9-bcaa-43a2-9c57-3d7cb9cb94d3", 1D, 2)
   registerPotionAttributeModifier(EntityPlayer.REACH_DISTANCE, "b4f3991b-0fc5-4eba-804a-bc82060f4ef7", 3D, 2)
   registerPotionAttributeModifier(SharedMonsterAttributes.MOVEMENT_SPEED, "067d7089-1c86-4aa7-aa24-95975836e930", 0.3D, 2)

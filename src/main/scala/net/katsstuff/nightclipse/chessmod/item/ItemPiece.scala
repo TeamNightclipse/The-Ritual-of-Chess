@@ -14,7 +14,8 @@ import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.entity.player.{EntityPlayer, EntityPlayerMP}
-import net.minecraft.item.{ItemBlock, ItemStack}
+import net.minecraft.init.SoundEvents
+import net.minecraft.item.{EnumAction, ItemBlock, ItemStack}
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.{ActionResult, EnumActionResult, EnumFacing, EnumHand, NonNullList, SoundCategory}
@@ -41,6 +42,10 @@ class ItemPiece extends ItemChessBase(ChessNames.Items.Piece) {
     new ActionResult[ItemStack](EnumActionResult.SUCCESS, stack)
   }
 
+  override def getMaxItemUseDuration(stack: ItemStack) = 72000
+
+  override def getItemUseAction(stack: ItemStack) = EnumAction.BOW
+
   override def onPlayerStoppedUsing(
       stack: ItemStack,
       world: World,
@@ -50,19 +55,23 @@ class ItemPiece extends ItemChessBase(ChessNames.Items.Piece) {
     entityLiving match {
       case player: EntityPlayer =>
         val piece = ItemPiece.pieceOf(stack)
-        if(!world.isRemote) {
-          world.spawnEntity(piece.doSingleEffect(player))
-        }
+        val useDuration = getMaxItemUseDuration(stack) - timeLeft
+        if(useDuration > piece.tpe.worth * 20) {
+          player.playSound(SoundEvents.ENTITY_WITHER_SPAWN, 1F, 1F)
+          if(!world.isRemote) {
+            piece.doSingleEffect(player)
+          }
 
-        if (!player.capabilities.isCreativeMode) {
-          stack.shrink(1)
-          if (stack.isEmpty) player.inventory.deleteStack(stack)
+          if (!player.capabilities.isCreativeMode) {
+            stack.shrink(1)
+            if (stack.isEmpty) player.inventory.deleteStack(stack)
+          }
         }
-
+        else {
+          player.playSound(SoundEvents.BLOCK_FIRE_EXTINGUISH, 1F, 1F)
+        }
       case _ =>
     }
-
-    super.onPlayerStoppedUsing(stack, world, entityLiving, timeLeft)
   }
 
   //Mostly copy pasted from ItemBlock with a few changes

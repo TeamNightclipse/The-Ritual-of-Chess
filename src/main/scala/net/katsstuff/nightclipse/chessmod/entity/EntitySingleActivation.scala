@@ -15,11 +15,11 @@ import net.katsstuff.nightclipse.chessmod.{
 }
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayer
-import net.minecraft.nbt.{NBTTagCompound, NBTTagList}
+import net.minecraft.init.SoundEvents
+import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.network.datasync.{DataParameter, EntityDataManager}
-import net.minecraft.tileentity.MobSpawnerBaseLogic
-import net.minecraft.util.DamageSource
-import net.minecraft.util.math.{BlockPos, RayTraceResult}
+import net.minecraft.util.math.RayTraceResult
+import net.minecraft.util.{DamageSource, EnumParticleTypes}
 import net.minecraft.world.World
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.entity.living.LivingDamageEvent
@@ -40,10 +40,17 @@ class EntitySingleActivation(player: EntityPlayer, _piece: Piece, _world: World)
 
   var takenDamage = 0F
 
+  ignoreFrustumCheck = true
   piece = if (!world.isRemote) _piece else Piece.default
 
   implicit val spawnerSettings: MonsterSpawnerSettings =
-    MonsterSpawnerSettings.defaultSpawnlist(ticksBetween = 8, maxJitter = 0, xzRange = 16, yRange = 8)
+    MonsterSpawnerSettings.defaultSpawnlist(
+      ticksBetween = 14,
+      maxJitter = 0,
+      xzRange = 16,
+      yRange = 8,
+      attackPieces = false
+    )
 
   if (!world.isRemote && piece.tpe == PieceType.Knight || piece.tpe == PieceType.Rook) {
     MinecraftForge.EVENT_BUS.register(this)
@@ -55,11 +62,11 @@ class EntitySingleActivation(player: EntityPlayer, _piece: Piece, _world: World)
   def piece:                 Piece = dataManager.get(EntitySingleActivation.Piece)
   def piece_=(piece: Piece): Unit  = dataManager.set(EntitySingleActivation.Piece, piece)
 
-  def intensity: Float = piece match {
-    case Piece(PieceType.Pawn, _)                => ticksExisted / 300F
-    case Piece(PieceType.King, PieceColor.White) => ticksExisted / 60F
-    case Piece(PieceType.King, PieceColor.Black) => ticksExisted / 80F
-    case _                                       => 0.5F
+  def intensity(partialTicks: Float = 0F): Float = piece match {
+    case Piece(PieceType.Pawn, _)                => (ticksExisted + partialTicks) / 300F
+    case Piece(PieceType.King, PieceColor.White) => (ticksExisted + partialTicks) / 60F
+    case Piece(PieceType.King, PieceColor.Black) => (ticksExisted + partialTicks) / 80F
+    case _                                       => (ticksExisted + partialTicks) / 600F
   }
 
   override def onUpdate(): Unit = {
@@ -67,7 +74,7 @@ class EntitySingleActivation(player: EntityPlayer, _piece: Piece, _world: World)
     if (!world.isRemote && ticksExisted > 40) {
       piece match {
         case Piece(PieceType.Pawn, _) =>
-          ChessMonsterSpawner.spawnAround(player, None, intensity)
+          ChessMonsterSpawner.spawnAround(player, None, intensity())
 
           if (ticksExisted > 300) {
             Piece(PieceType.Queen, piece.color).doSingleEffect(player)
@@ -97,6 +104,10 @@ class EntitySingleActivation(player: EntityPlayer, _piece: Piece, _world: World)
             setDead()
           }
       }
+
+      if (ticksExisted > 600) {
+        setDead()
+      }
     }
   }
 
@@ -121,15 +132,25 @@ class EntitySingleActivation(player: EntityPlayer, _piece: Piece, _world: World)
       val end    = start.offset(Vector3.WrappedVec3d(living.getLookVec), 32D)
       val result = world.rayTraceBlocks(start.toVec3d, end.toVec3d, false, true, false)
 
-      if (result.typeOfHit == RayTraceResult.Type.BLOCK) {
+      if (result != null && result.typeOfHit == RayTraceResult.Type.BLOCK) {
         val vec = result.hitVec
         living.setPositionAndUpdate(vec.x, vec.y, vec.z)
+        living.setJumping(false)
       }
     }
   }
 
   override def setDead(): Unit = {
     super.setDead()
+    playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 1F, 1F)
+
+    for (_ <- 0 until 20) {
+      val rx = (rand.nextFloat - 0.5F) * 8F
+      val ry = (rand.nextFloat - 0.5F) * 8F
+      val rz = (rand.nextFloat - 0.5F) * 8F
+      world.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, posX + rx, posY + ry, posZ + rz, 0D, 0D, 0D)
+    }
+
     if (!world.isRemote) {
       val effect = piece.tpe match {
         case PieceType.Pawn   => Some(ChessPotions.FrenzyPawn)

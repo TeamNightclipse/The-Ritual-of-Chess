@@ -1,7 +1,9 @@
 package net.katsstuff.nightclipse.chessmod
 
 import net.katsstuff.nightclipse.chessmod.client.ClientProxy
+import net.katsstuff.nightclipse.chessmod.network.PieceDataSerializer
 import net.katsstuff.nightclipse.chessmod.rituals.{RitualHandler, Rituals}
+import net.minecraft.network.datasync.DataSerializers
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.{FMLCommonHandler, Mod, SidedProxy}
@@ -39,7 +41,11 @@ object ChessMod {
   )
   var proxy: CommonProxy = _
 
-  @EventHandler def onPreInit(event: FMLPreInitializationEvent):   Unit = proxy.preInit()
+  @EventHandler def onPreInit(event: FMLPreInitializationEvent): Unit = {
+    proxy.preInit()
+    DataSerializers.registerSerializer(PieceDataSerializer)
+  }
+
   @EventHandler def onInit(event: FMLInitializationEvent):         Unit = {}
   @EventHandler def onPostInit(event: FMLPostInitializationEvent): Unit = {}
 

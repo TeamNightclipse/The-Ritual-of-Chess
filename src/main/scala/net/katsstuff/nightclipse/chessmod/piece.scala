@@ -20,6 +20,7 @@ case class Piece(tpe: PieceType, color: PieceColor) {
       player.addPotionEffect(new PotionEffect(potion, 600, 3))
     }
     val entity = new EntitySingleActivation(player, this, player.world)
+    entity.setPositionAndUpdate(player.posX, player.posY + player.getEyeHeight, player.posZ)
     player.world.spawnEntity(entity)
     entity
   }
@@ -54,7 +55,7 @@ object PieceType {
   object Knight extends PieceType("knight", 2, 3)
   object Rook   extends PieceType("rook", 2, 5)
   object Queen  extends PieceType("queen", 1, 9)
-  object King   extends PieceType("king", 1, 0)
+  object King   extends PieceType("king", 1, 15)
 
   val all = Seq(Pawn, Bishop, Knight, Rook, Queen, King)
 
