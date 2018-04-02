@@ -1,10 +1,10 @@
 {
 	"credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
 	"textures": {
-		"0": "blocks/chess_timer",
-		"1": "blocks/chess_timer_back",
-		"2": "blocks/chess_timer_front",
-		"particle": "blocks/chess_timer"
+		"0": "chessmod:blocks/chess_timer",
+		"1": "chessmod:blocks/chess_timer_back",
+		"2": "chessmod:blocks/chess_timer_front",
+		"particle": "chessmod:blocks/chess_timer"
 	},
 	"elements": [
 		{
@@ -79,25 +79,9 @@
 					"uv": [3.5, 3.5, 12.5, 12.5],
 					"texture": "#2"
 				},
-				"east": {
-					"uv": [0, 0, 6.000000000000001, 7],
-					"texture": "#missing"
-				},
 				"south": {
 					"uv": [3.5, 3.5, 12.5, 12.5],
 					"texture": "#1"
-				},
-				"west": {
-					"uv": [0, 0, 6.000000000000001, 7],
-					"texture": "#missing"
-				},
-				"up": {
-					"uv": [0, 0, 7, 6.000000000000001],
-					"texture": "#missing"
-				},
-				"down": {
-					"uv": [0, 0, 7, 6.000000000000001],
-					"texture": "#missing"
 				}
 			}
 		}

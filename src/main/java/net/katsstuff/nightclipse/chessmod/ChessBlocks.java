@@ -24,4 +24,7 @@ public class ChessBlocks {
 
 	@GameRegistry.ObjectHolder(ChessNames.Block.PieceKing)
 	public static final Block PieceKing = new Block(Material.AIR);
+
+	@GameRegistry.ObjectHolder(ChessNames.Block.ChessTimer)
+	public static final Block ChessTimer = new Block(Material.AIR);
 }

@@ -3,13 +3,13 @@ package net.katsstuff.nightclipse.chessmod
 import scala.reflect.ClassTag
 import scala.collection.JavaConverters._
 import net.katsstuff.mirror.misc.IdState
-import net.katsstuff.nightclipse.chessmod.block.BlockPiece
+import net.katsstuff.nightclipse.chessmod.block.{BlockChessTimer, BlockPiece}
 import net.katsstuff.nightclipse.chessmod.effects.{PotionFrenzy, PotionFrenzyBishop, PotionFrenzyQueen}
 import net.katsstuff.nightclipse.chessmod.entity.{EntityInfo, EntityKnight, EntityOngoingRitual, EntitySingleActivation}
 import net.katsstuff.nightclipse.chessmod.item.ItemPiece
 import net.minecraft.block.Block
 import net.minecraft.entity.Entity
-import net.minecraft.item.Item
+import net.minecraft.item.{Item, ItemBlock}
 import net.minecraft.potion.Potion
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
@@ -22,12 +22,14 @@ object CommonProxy {
     event.getRegistry.registerAll(
       PieceType.all.map(new BlockPiece(_)): _*
     )
+    event.getRegistry.register(new BlockChessTimer)
   }
 
   @SubscribeEvent
   def registerItems(event: RegistryEvent.Register[Item]): Unit = {
     event.getRegistry.registerAll(
-      new ItemPiece
+      new ItemPiece,
+      new ItemBlock(ChessBlocks.ChessTimer).setRegistryName(ChessBlocks.ChessTimer.getRegistryName)
     )
   }
 

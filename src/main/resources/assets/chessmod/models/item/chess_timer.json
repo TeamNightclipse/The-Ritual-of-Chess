@@ -2,6 +2,6 @@
   "parent": "item/generated",
   "textures": {
     "layer0": "chessmod:items/chess_timer",
-    "layer1": "chessmod:items/chess_timer_back"
+    "layer1": "chessmod:blocks/chess_timer_front"
   }
 }

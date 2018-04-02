@@ -10,6 +10,7 @@ public class ChessNames {
 		public static final String PieceRook = "piece_rook";
 		public static final String PieceQueen = "piece_queen";
 		public static final String PieceKing = "piece_king";
+		public static final String ChessTimer = "chess_timer";
 	}
 
 	public static class Items {
