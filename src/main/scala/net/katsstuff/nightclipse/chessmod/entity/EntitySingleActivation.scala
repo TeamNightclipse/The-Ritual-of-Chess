@@ -55,12 +55,19 @@ class EntitySingleActivation(player: EntityPlayer, _piece: Piece, _world: World)
   def piece:                 Piece = dataManager.get(EntitySingleActivation.Piece)
   def piece_=(piece: Piece): Unit  = dataManager.set(EntitySingleActivation.Piece, piece)
 
+  def intensity: Float = piece match {
+    case Piece(PieceType.Pawn, _)                => ticksExisted / 300F
+    case Piece(PieceType.King, PieceColor.White) => ticksExisted / 60F
+    case Piece(PieceType.King, PieceColor.Black) => ticksExisted / 80F
+    case _                                       => 0.5F
+  }
+
   override def onUpdate(): Unit = {
     super.onUpdate()
     if (!world.isRemote && ticksExisted > 40) {
       piece match {
         case Piece(PieceType.Pawn, _) =>
-          ChessMonsterSpawner.spawnAround(player)
+          ChessMonsterSpawner.spawnAround(player, None, intensity)
 
           if (ticksExisted > 300) {
             Piece(PieceType.Queen, piece.color).doSingleEffect(player)

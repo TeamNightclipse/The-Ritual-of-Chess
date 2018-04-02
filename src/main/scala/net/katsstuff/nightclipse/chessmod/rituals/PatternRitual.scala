@@ -36,9 +36,11 @@ case class PatternRitual(
           if state.getBlockState.getBlock == ChessBlocks.PieceKing
         } yield state
 
-        if (king.isEmpty) Left(new TextComponentTranslation("ritual.error.kingnotfound"))
-        else if (king.size > 1) Left(new TextComponentTranslation("ritual.error.multiplekings"))
-        else Right(new EntityOngoingRitual(player, this, king.head.getPos, player.world))
+        king match {
+          case Seq(onlyKing) => Right(new EntityOngoingRitual(player, this, onlyKing.getPos, player.world))
+          case Seq()         => Left(new TextComponentTranslation("ritual.error.kingnotfound"))
+          case _             => Left(new TextComponentTranslation("ritual.error.multiplekings"))
+        }
       } else Left(new TextComponentTranslation("ritual.error.wrongdirection"))
     } else Left(new TextComponentTranslation("ritual.error.wrongblocks.block"))
   }
@@ -53,10 +55,13 @@ case class PatternRitual(
   override def tickServer(entity: EntityOngoingRitual): Option[Either[ITextComponent, ItemStack]] =
     if (entity.ticksExisted > duration) Some(Right(reward(entity)))
     else {
-      ChessMonsterSpawner.spawnAround(entity)(spawnerSettings)
+      ChessMonsterSpawner.spawnAround(entity, Some(entity.centralBlock), intensity(entity))(spawnerSettings)
       None
     }
 
+  override def intensity(entity: EntityOngoingRitual): Float = entity.ticksExisted / duration.toFloat
+
+  override def size: Int = pattern.getPalmLength * pattern.getThumbLength * pattern.getFingerLength
 
   override def doPlayerInfo(entity: EntityOngoingRitual): Unit = {
     val remainingTicks      = duration - entity.ticksExisted
