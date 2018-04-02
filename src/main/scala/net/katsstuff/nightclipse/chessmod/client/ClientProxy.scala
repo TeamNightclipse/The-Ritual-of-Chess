@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.client.event.ModelRegistryEvent
 import net.minecraftforge.client.model.ModelLoader
-import net.minecraftforge.fml.client.registry.RenderingRegistry
+import net.minecraftforge.fml.client.registry.{IRenderFactory, RenderingRegistry}
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
 object ClientProxy {
@@ -37,10 +37,13 @@ object ClientProxy {
 }
 class ClientProxy extends CommonProxy {
   override def preInit(): Unit = {
-    def registerRenderer[A <: Entity](f: RenderManager => Render[_ <: A])(implicit classTag: ClassTag[A]): Unit =
+    //noinspection ConvertExpressionToSAM
+    def registerRenderer[A <: Entity](f: RenderManager => Render[A])(implicit classTag: ClassTag[A]): Unit =
       RenderingRegistry.registerEntityRenderingHandler(
         classTag.runtimeClass.asInstanceOf[Class[A]],
-        (manager: RenderManager) => f(manager)
+        new IRenderFactory[A] {
+          override def createRenderFor(manager: RenderManager): Render[_ >: A <: Entity] = f(manager)
+        }
       )
 
     registerRenderer(new RenderKnight(_))
