@@ -18,5 +18,5 @@ class RenderOngoingRitual(_manager: RenderManager) extends Render[EntityOngoingR
     super.doRender(entity, x, y, z, entityYaw, partialTicks)
   }
 
-  override def getEntityTexture(entity: EntityOngoingRitual): ResourceLocation = ChessMod.resource("white.png")
+  override def getEntityTexture(entity: EntityOngoingRitual): ResourceLocation = ChessMod.resource("textures/white.png")
 }

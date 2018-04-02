@@ -75,8 +75,8 @@ object Rituals {
         .build,
     duration = 5,
     reward = _ => color => ItemPiece.stackOf(Piece(PieceType.Pawn, color)),
-    spawnerSettings =
-      MonsterSpawnerSettings.defaultSpawnlist(ticksBetween = 4, maxJitter = 0, xzRange = 5D, yRange = 3D)
+    spawnerSettings = MonsterSpawnerSettings
+      .defaultSpawnlist(ticksBetween = 4, maxJitter = 0, xzRange = 5D, yRange = 3D, attackPieces = true)
   )
 
   val bishopRitual = coloredRitual(
@@ -95,8 +95,8 @@ object Rituals {
         .build(),
     duration = 30.seconds,
     reward = _ => color => ItemPiece.stackOf(Piece(PieceType.Bishop, color)),
-    spawnerSettings =
-      MonsterSpawnerSettings.defaultSpawnlist(ticksBetween = 8, maxJitter = 0, xzRange = 10D, yRange = 5D)
+    spawnerSettings = MonsterSpawnerSettings
+      .defaultSpawnlist(ticksBetween = 8, maxJitter = 0, xzRange = 10D, yRange = 5D, attackPieces = true)
   )
 
   val knightRitual = coloredRitual(
@@ -115,8 +115,8 @@ object Rituals {
         .build(),
     duration = 40.seconds,
     reward = _ => color => ItemPiece.stackOf(Piece(PieceType.Knight, color)),
-    spawnerSettings =
-      MonsterSpawnerSettings.defaultSpawnlist(ticksBetween = 6, maxJitter = 1, xzRange = 12D, yRange = 4D)
+    spawnerSettings = MonsterSpawnerSettings
+      .defaultSpawnlist(ticksBetween = 6, maxJitter = 1, xzRange = 12D, yRange = 4D, attackPieces = true)
   )
 
   val rookRitual = coloredRitual(
@@ -139,8 +139,8 @@ object Rituals {
         .build(),
     duration = 60.seconds,
     reward = _ => color => ItemPiece.stackOf(Piece(PieceType.Knight, color)),
-    spawnerSettings =
-      MonsterSpawnerSettings.defaultSpawnlist(ticksBetween = 5, maxJitter = 1, xzRange = 15D, yRange = 6D)
+    spawnerSettings = MonsterSpawnerSettings
+      .defaultSpawnlist(ticksBetween = 5, maxJitter = 1, xzRange = 15D, yRange = 6D, attackPieces = true)
   )
 
   val queenRitual = coloredRitual(
@@ -166,8 +166,8 @@ object Rituals {
         .build(),
     duration = 120.seconds,
     reward = _ => color => ItemPiece.stackOf(Piece(PieceType.Knight, color)),
-    spawnerSettings =
-      MonsterSpawnerSettings.defaultSpawnlist(ticksBetween = 5, maxJitter = 1, xzRange = 18D, yRange = 8D)
+    spawnerSettings = MonsterSpawnerSettings
+      .defaultSpawnlist(ticksBetween = 5, maxJitter = 1, xzRange = 18D, yRange = 8D, attackPieces = true)
   )
 
   val all = ritualsForColors(pawnRitual) ++ ritualsForColors(bishopRitual) ++ ritualsForColors(knightRitual) ++ ritualsForColors(rookRitual) ++ ritualsForColors(queenRitual)
