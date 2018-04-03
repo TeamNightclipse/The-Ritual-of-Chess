@@ -1,6 +1,9 @@
 # The Ritual of Chess
 The Ritual of Chess is POC for a magic system centered around chess pieces and fighting monsters. Attain pieces, arrange them in mystical arrangements, fight for your life, and finally set your eyes at the price. Once you have your reward, you can either sacrifice it for an amazing frenzy for half a minute, or use it to attain even more powerful pieces.
 
+Demo video explaining stuff:
+
+[![Youtube Demo](https://img.youtube.com/vi/vwrkvalcN4I/0.jpg)](https://www.youtube.com/watch?v=vwrkvalcN4I)
 
 ## Getting started
 
