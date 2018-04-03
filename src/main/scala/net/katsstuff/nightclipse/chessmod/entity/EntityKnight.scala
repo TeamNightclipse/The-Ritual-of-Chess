@@ -69,7 +69,6 @@ class EntityKnight(_world: World, attackPieces: Boolean) extends EntityMob(_worl
     this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(5D)
   }
 
-  //FIXME
   override def getLootTable: ResourceLocation =
     ChessMod.resource("entities/knight")
 
