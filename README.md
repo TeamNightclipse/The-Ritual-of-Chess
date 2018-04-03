@@ -53,3 +53,11 @@ Currently only sacrifice them for carnage. When you hold right click for a given
 * **Knight**: Your jump is replaced by a teleport. When you jump, you will instead teleport where you are looking. You can jump normally by sneaking. (Planned deal damage through the path to your destination)
 * **Rook**: Increased damage and reach.
 * **Queen**: Increased movement speed, attack speed, attack damage, reach, in addition to insane heal.
+* **King**: Huge explosion that deals massive damage.
+
+## Future plans
+* Some limits on some features like starting rituals (cancelling will always be free)
+* More spells outside sacrifices
+* Timer recipe
+* Some limits on some frenzy effects (knight especially comes to mind)
+* More awesome rendering
