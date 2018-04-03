@@ -28,12 +28,14 @@ class ItemPiece extends ItemChessBase(ChessNames.Items.Piece) {
   override def getItemStackLimit(stack: ItemStack): Int = ItemPiece.pieceOf(stack).tpe.max
 
   override def getSubItems(tab: CreativeTabs, items: NonNullList[ItemStack]): Unit = {
-    val allPieces = for {
-      tpe   <- PieceType.all
-      color <- PieceColor.all
-    } yield Piece(tpe, color)
+    if(isInCreativeTab(tab)) {
+      val allPieces = for {
+        tpe   <- PieceType.all
+        color <- PieceColor.all
+      } yield Piece(tpe, color)
 
-    items.addAll(allPieces.map(ItemPiece.stackOf).asJava)
+      items.addAll(allPieces.map(ItemPiece.stackOf).asJava)
+    }
   }
 
   override def onItemRightClick(world: World, player: EntityPlayer, hand: EnumHand): ActionResult[ItemStack] = {
