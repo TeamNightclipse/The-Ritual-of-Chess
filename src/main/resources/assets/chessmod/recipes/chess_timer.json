@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "WCW",
+    "WWW"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "C": {
+      "item": "minecraft:clock"
+    },
+    "W": [
+	  {
+        "item": "minecraft:planks",
+        "data": 32767
+      }
+    ]
+  },
+  "result": {
+    "item": "chessmod:chess_timer"
+  }
+}
