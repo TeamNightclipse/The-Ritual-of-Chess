@@ -1,22 +1,42 @@
 package net.katsstuff.nightclipse.chessmod.block
 
-import net.katsstuff.nightclipse.chessmod.{ChessBlocks, PieceType}
+import java.util.Random
+
+import net.katsstuff.nightclipse.chessmod.item.ItemPiece
+import net.katsstuff.nightclipse.chessmod.{ChessBlocks, ChessItems, Piece, PieceColor, PieceType}
 import net.minecraft.block.{Block, BlockHorizontal}
 import net.minecraft.block.material.Material
 import net.minecraft.block.properties.{PropertyBool, PropertyDirection}
 import net.minecraft.block.state.{BlockFaceShape, BlockStateContainer, IBlockState}
 import net.minecraft.entity.EntityLivingBase
+import net.minecraft.item.{Item, ItemStack}
 import net.minecraft.util.math.{AxisAlignedBB, BlockPos}
-import net.minecraft.util.{EnumFacing, Mirror, Rotation}
+import net.minecraft.util.{EnumFacing, Mirror, NonNullList, Rotation}
 import net.minecraft.world.{IBlockAccess, World}
 
-class BlockPiece(piece: PieceType) extends BlockChessBase(Material.ROCK, s"piece_${piece.name}") {
+class BlockPiece(tpe: PieceType) extends BlockChessBase(Material.ROCK, s"piece_${tpe.name}") {
+  setHardness(1F)
 
   this.setDefaultState(
     blockState.getBaseState
       .withProperty(BlockPiece.White, Boolean.box(false))
       .withProperty(BlockPiece.Facing, EnumFacing.NORTH)
   )
+
+  override def getItemDropped(state: IBlockState, rand: Random, fortune: Int): Item =
+    ChessItems.Piece
+
+  override def getDrops(
+      drops: NonNullList[ItemStack],
+      world: IBlockAccess,
+      pos: BlockPos,
+      state: IBlockState,
+      fortune: Int
+  ): Unit = {
+    val isWhite = state.getValue(BlockPiece.White)
+    val piece   = Piece(tpe, if (isWhite) PieceColor.White else PieceColor.Black)
+    drops.add(ItemPiece.stackOf(piece))
+  }
 
   override def isFullCube(state: IBlockState): Boolean = false
 

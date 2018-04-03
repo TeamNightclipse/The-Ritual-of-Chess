@@ -55,7 +55,7 @@ object PieceType {
   object Knight extends PieceType("knight", 2, 3)
   object Rook   extends PieceType("rook", 2, 5)
   object Queen  extends PieceType("queen", 1, 9)
-  object King   extends PieceType("king", 1, 15)
+  object King   extends PieceType("king", 1, 12)
 
   val all = Seq(Pawn, Bishop, Knight, Rook, Queen, King)
 

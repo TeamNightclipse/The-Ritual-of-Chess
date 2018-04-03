@@ -13,15 +13,13 @@ import net.minecraftforge.fml.relauncher.Side
 
 @Mod(
   modid = ChessMod.Id,
-  name = ChessMod.Name,
-  version = ChessMod.Version,
+  name = "The Ritual of Chess",
+  version = "0.1",
   dependencies = "required-after:mirror",
   modLanguage = "scala"
 )
 object ChessMod {
-  final val Id      = "chessmod"
-  final val Name    = "ChessMod"
-  final val Version = "0.1"
+  final val Id = "chessmod"
 
   lazy val ritualHandler = RitualHandler(Rituals.all)
 
@@ -46,7 +44,7 @@ object ChessMod {
     DataSerializers.registerSerializer(PieceDataSerializer)
   }
 
-  @EventHandler def onInit(event: FMLInitializationEvent):         Unit = {}
-  @EventHandler def onPostInit(event: FMLPostInitializationEvent): Unit = {}
+  //@EventHandler def onInit(event: FMLInitializationEvent):         Unit = {}
+  //@EventHandler def onPostInit(event: FMLPostInitializationEvent): Unit = {}
 
 }

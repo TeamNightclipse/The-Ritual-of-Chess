@@ -4,6 +4,7 @@ import java.lang.{Boolean => JBoolean}
 
 import com.google.common.base.Predicate
 
+import net.katsstuff.mirror.data.Vector3
 import net.katsstuff.nightclipse.chessmod.block.BlockPiece
 import net.katsstuff.nightclipse.chessmod.entity.EntityOngoingRitual
 import net.katsstuff.nightclipse.chessmod.item.ItemPiece
@@ -34,6 +35,8 @@ object Rituals {
 
   def coloredRitual(
       pattern: PieceColor => BlockPattern,
+      donePattern: PieceColor => BlockPattern,
+      removeBlocks: (EntityOngoingRitual, BlockPattern.PatternHelper, PieceColor) => Unit,
       duration: Int,
       reward: EntityOngoingRitual => PieceColor => ItemStack,
       spawnerSettings: MonsterSpawnerSettings
@@ -41,6 +44,8 @@ object Rituals {
     color =>
       PatternRitual(
         pattern = pattern(color),
+        donePattern = donePattern(color),
+        removeBlocks = (entity, helper) => removeBlocks(entity, helper, color),
         duration = duration,
         reward = entity => reward(entity)(color),
         spawnerSettings = spawnerSettings
@@ -52,6 +57,12 @@ object Rituals {
   }
 
   def baseBlockMatcher(color: PieceColor): Predicate[BlockWorldState] = blockMatcher(baseBlock(color))
+
+  def removeBlockList(entity: EntityOngoingRitual, helper: BlockPattern.PatternHelper, color: PieceColor)(toRemove: Vector3*): Unit = {
+    toRemove.foreach { vec =>
+      entity.world.setBlockToAir(helper.translateOffset(vec.x.toInt, vec.y.toInt, vec.z.toInt).getPos)
+    }
+  }
 
   def coloredMatcher(piece: Block, color: PieceColor): Predicate[BlockWorldState] =
     matcher(
@@ -73,10 +84,26 @@ object Rituals {
         .where('#', baseBlockMatcher(color))
         .where('¤', coloredMatcher(ChessBlocks.PieceKing, color))
         .build,
-    duration = 5,
+    donePattern = color =>
+      pattern
+        .aisle(
+          " # ",
+          "#¤#",
+          " # "
+        )
+        .where('#', baseBlockMatcher(color))
+        .where('¤', coloredMatcher(ChessBlocks.PieceKing, color))
+        .build,
+    removeBlocks = (entity, helper, color) => removeBlockList(entity, helper, color)(
+      Vector3(1, 0, 0),
+      Vector3(0, 1, 0),
+      Vector3(1, 2, 0),
+      Vector3(2, 1, 0)
+    ),
+    duration = 3.seconds,
     reward = _ => color => ItemPiece.stackOf(Piece(PieceType.Pawn, color)),
     spawnerSettings = MonsterSpawnerSettings
-      .defaultSpawnlist(ticksBetween = 4, maxJitter = 0, xzRange = 5D, yRange = 3D, attackPieces = true)
+      .defaultSpawnlist(ticksBetween = 16, maxJitter = 0, xzRange = 5D, yRange = 3D, attackPieces = true)
   )
 
   val bishopRitual = coloredRitual(
@@ -93,6 +120,23 @@ object Rituals {
         .where('!', coloredMatcher(ChessBlocks.PiecePawn, color))
         .where('¤', coloredMatcher(ChessBlocks.PieceKing, color))
         .build(),
+    donePattern = color =>
+      pattern.aisle(
+        "#   #",
+        " # # ",
+        "  ¤  ",
+        " # # ",
+        "#   #"
+      )
+      .where('#', baseBlockMatcher(color))
+      .where('¤', coloredMatcher(ChessBlocks.PieceKing, color))
+      .build(),
+    removeBlocks = (entity, helper, color) => removeBlockList(entity, helper, color)(
+      Vector3(0, 0, 0), Vector3(0, 4, 0),
+      Vector3(1, 1, 0), Vector3(1, 3, 0),
+      Vector3(3, 1, 0), Vector3(3, 3, 0),
+      Vector3(4, 0, 0), Vector3(4, 4, 0)
+    ),
     duration = 30.seconds,
     reward = _ => color => ItemPiece.stackOf(Piece(PieceType.Bishop, color)),
     spawnerSettings = MonsterSpawnerSettings
@@ -113,6 +157,24 @@ object Rituals {
         .where('!', coloredMatcher(ChessBlocks.PiecePawn, color))
         .where('¤', coloredMatcher(ChessBlocks.PieceKing, color))
         .build(),
+    donePattern = color =>
+      pattern
+        .aisle(
+          " # # ",
+          "#   #",
+          "  ¤  ",
+          "#   #",
+          " # # "
+        )
+        .where('#', baseBlockMatcher(color))
+        .where('¤', coloredMatcher(ChessBlocks.PieceKing, color))
+        .build(),
+    removeBlocks = (entity, helper, color) => removeBlockList(entity, helper, color)(
+      Vector3(0, 1, 0), Vector3(0, 3, 0),
+      Vector3(1, 0, 0), Vector3(1, 4, 0),
+      Vector3(3, 0, 0), Vector3(3, 4, 0),
+      Vector3(4, 1, 0), Vector3(4, 3, 0)
+    ),
     duration = 40.seconds,
     reward = _ => color => ItemPiece.stackOf(Piece(PieceType.Knight, color)),
     spawnerSettings = MonsterSpawnerSettings
@@ -137,6 +199,26 @@ object Rituals {
         .where('&', coloredMatcher(ChessBlocks.PieceKnight, color))
         .where('¤', coloredMatcher(ChessBlocks.PieceKing, color))
         .build(),
+    donePattern = color =>
+      pattern
+        .aisle(
+          "   #   ",
+          "   #   ",
+          "       ",
+          "## ¤ ##",
+          "       ",
+          "   #   ",
+          "   #   "
+        )
+        .where('#', baseBlockMatcher(color))
+        .where('¤', coloredMatcher(ChessBlocks.PieceKing, color))
+        .build(),
+    removeBlocks = (entity, helper, color) => removeBlockList(entity, helper, color)(
+      Vector3(0, 3, 0), Vector3(1, 3, 0),
+      Vector3(3, 0, 0), Vector3(3, 1, 0),
+      Vector3(3, 5, 0), Vector3(3, 6, 0),
+      Vector3(5, 3, 0), Vector3(6, 3, 0)
+    ),
     duration = 60.seconds,
     reward = _ => color => ItemPiece.stackOf(Piece(PieceType.Knight, color)),
     spawnerSettings = MonsterSpawnerSettings
@@ -164,6 +246,28 @@ object Rituals {
         .where('|', coloredMatcher(ChessBlocks.PieceRook, color))
         .where('¤', coloredMatcher(ChessBlocks.PieceKing, color))
         .build(),
+    donePattern = color =>
+      pattern
+        .aisle(
+          "   ###   ",
+          "         ",
+          "         ",
+          "#       #",
+          "#   ¤   #",
+          "#       #",
+          "         ",
+          "         ",
+          "   ###   "
+        )
+        .where('#', baseBlockMatcher(color))
+        .where('¤', coloredMatcher(ChessBlocks.PieceKing, color))
+        .build(),
+    removeBlocks = (entity, helper, color) => removeBlockList(entity, helper, color)(
+      Vector3(0, 3, 0), Vector3(0, 4, 0), Vector3(0, 5, 0),
+      Vector3(4, 0, 0), Vector3(5, 0, 0), Vector3(6, 0, 0),
+      Vector3(4, 8, 0), Vector3(5, 8, 0), Vector3(6, 8, 0),
+      Vector3(8, 3, 0), Vector3(8, 4, 0), Vector3(8, 5, 0)
+    ),
     duration = 120.seconds,
     reward = _ => color => ItemPiece.stackOf(Piece(PieceType.Knight, color)),
     spawnerSettings = MonsterSpawnerSettings

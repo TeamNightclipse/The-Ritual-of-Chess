@@ -9,7 +9,7 @@ import net.minecraft.world.World
 class RitualHandler(rituals: Seq[Ritual]) {
 
   def findRitual(world: World, pos: BlockPos): Option[Ritual] =
-    rituals.filter(_.hasCorrectPlacement(world, pos)).sortBy(_.size).headOption
+    rituals.filter(_.hasCorrectPlacement(world, pos)).sortBy(_.size).lastOption
 
   def activate(world: World, pos: BlockPos, player: EntityPlayer): Either[ITextComponent, EntityOngoingRitual] =
     findRitual(world, pos)

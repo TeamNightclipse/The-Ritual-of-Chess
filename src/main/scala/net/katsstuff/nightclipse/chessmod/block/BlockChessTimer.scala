@@ -5,34 +5,65 @@ import java.util.Random
 import scala.collection.JavaConverters._
 
 import net.katsstuff.nightclipse.chessmod.ChessNames
-import net.katsstuff.nightclipse.chessmod.entity.EntityOngoingRitual
+import net.katsstuff.nightclipse.chessmod.entity.{EntityCanCancel, EntityOngoingRitual}
 import net.minecraft.block.BlockHorizontal
 import net.minecraft.block.material.Material
 import net.minecraft.block.properties.PropertyDirection
 import net.minecraft.block.state.{BlockFaceShape, BlockStateContainer, IBlockState}
-import net.minecraft.entity.EntityLivingBase
+import net.minecraft.entity.{Entity, EntityLivingBase}
+import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.EnumFacing.Axis
-import net.minecraft.util.{BlockRenderLayer, EnumFacing, Mirror, Rotation}
+import net.minecraft.util.{BlockRenderLayer, EnumFacing, EnumHand, Mirror, Rotation}
 import net.minecraft.util.math.{AxisAlignedBB, BlockPos}
+import net.minecraft.util.text.TextComponentTranslation
 import net.minecraft.world.{IBlockAccess, World}
 
 class BlockChessTimer extends BlockChessBase(Material.WOOD, ChessNames.Block.ChessTimer) {
 
-  this.setDefaultState(
-    blockState.getBaseState.withProperty(BlockChessTimer.Facing, EnumFacing.NORTH)
-  )
+  this.setDefaultState(blockState.getBaseState.withProperty(BlockChessTimer.Facing, EnumFacing.NORTH))
 
   override def tickRate(world: World): Int = 200
 
   override def updateTick(world: World, pos: BlockPos, state: IBlockState, rand: Random): Unit =
     world
-      .getEntitiesWithinAABB(classOf[EntityOngoingRitual], new AxisAlignedBB(pos).grow(32D), null)
+      .getEntitiesWithinAABB(classOf[EntityOngoingRitual], new AxisAlignedBB(pos).grow(32D))
       .asScala
       .sortBy(_.getDistanceSq(pos))
       .headOption
       .foreach { closestRitual =>
         closestRitual.ritual.doPlayerInfo(closestRitual)
       }
+
+  override def onBlockActivated(
+      world: World,
+      pos: BlockPos,
+      state: IBlockState,
+      player: EntityPlayer,
+      hand: EnumHand,
+      facing: EnumFacing,
+      hitX: Float,
+      hitY: Float,
+      hitZ: Float
+  ): Boolean = {
+    val toCancel = world
+      .getEntitiesWithinAABB(classOf[Entity], new AxisAlignedBB(pos).grow(32D))
+      .asScala
+      .collect {
+        case canCancel: EntityCanCancel if !canCancel.isDead => canCancel
+      }
+      .distinct
+
+    println(toCancel)
+    if(!world.isRemote) {
+      toCancel.foreach(_.cancel())
+
+      if(toCancel.nonEmpty) {
+        player.sendMessage(new TextComponentTranslation("ritual.cancel", toCancel.size.toString))
+      }
+    }
+
+    toCancel.nonEmpty
+  }
 
   override def isFullCube(state: IBlockState): Boolean = false
 
@@ -44,7 +75,8 @@ class BlockChessTimer extends BlockChessBase(Material.WOOD, ChessNames.Block.Che
   override def isOpaqueCube(state: IBlockState) = false
 
   override def getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB =
-    if(state.getValue(BlockChessTimer.Facing).getAxis == Axis.X) BlockChessTimer.XBoundingBox else BlockChessTimer.ZBoundingBox
+    if (state.getValue(BlockChessTimer.Facing).getAxis == Axis.X) BlockChessTimer.XBoundingBox
+    else BlockChessTimer.ZBoundingBox
 
   override def getStateForPlacement(
       worldIn: World,
@@ -75,7 +107,7 @@ class BlockChessTimer extends BlockChessBase(Material.WOOD, ChessNames.Block.Che
 
 }
 object BlockChessTimer {
-  val XBoundingBox: AxisAlignedBB = new AxisAlignedBB(0.3, 0, 0.2, 0.7, 0.65, 0.8)
-  val ZBoundingBox: AxisAlignedBB = new AxisAlignedBB(0.2, 0, 0.3, 0.8, 0.65, 0.7)
-  val Facing: PropertyDirection = BlockHorizontal.FACING
+  val XBoundingBox: AxisAlignedBB     = new AxisAlignedBB(0.3, 0, 0.2, 0.7, 0.65, 0.8)
+  val ZBoundingBox: AxisAlignedBB     = new AxisAlignedBB(0.2, 0, 0.3, 0.8, 0.65, 0.7)
+  val Facing:       PropertyDirection = BlockHorizontal.FACING
 }

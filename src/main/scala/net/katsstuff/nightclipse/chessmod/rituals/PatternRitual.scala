@@ -14,6 +14,8 @@ import net.minecraft.world.World
 
 case class PatternRitual(
     pattern: BlockPattern,
+    donePattern: BlockPattern,
+    removeBlocks: (EntityOngoingRitual, BlockPattern.PatternHelper) => Unit,
     duration: Int,
     reward: EntityOngoingRitual => ItemStack,
     spawnerSettings: MonsterSpawnerSettings
@@ -26,7 +28,7 @@ case class PatternRitual(
   ): Either[ITextComponent, EntityOngoingRitual] = {
     val helper = pattern.`match`(world, pos)
     if (helper != null) {
-      val isAllowed = if (allowsOtherUp) true else helper.getUp == EnumFacing.UP
+      val isAllowed = if (allowsOtherUp) true else helper.getUp.getAxis.isHorizontal
       if (isAllowed) {
         val king = for {
           palm   <- 0 until pattern.getPalmLength
@@ -46,18 +48,26 @@ case class PatternRitual(
   }
 
   override def hasCorrectPlacement(world: World, pos: BlockPos): Boolean = {
-    val helper = pattern.`match`(world, pos)
+    val helper = pattern.`match`(world, pos.add(0, 0, 0))
     if (helper != null) {
-      if (allowsOtherUp) true else helper.getUp == EnumFacing.UP
+      if (allowsOtherUp) true else helper.getUp.getAxis.isHorizontal
     } else false
   }
 
-  override def tickServer(entity: EntityOngoingRitual): Option[Either[ITextComponent, ItemStack]] =
-    if (entity.ticksExisted > duration) Some(Right(reward(entity)))
+  override def tickServer(entity: EntityOngoingRitual): Option[Either[ITextComponent, ItemStack]] = {
+    val helper = donePattern.`match`(entity.world, entity.kingPos)
+    if(helper == null) {
+      Some(Left(new TextComponentTranslation("ritual.error.interrupted.specialblock")))
+    }
+    else if (entity.ticksExisted > duration) {
+      removeBlocks(entity, helper)
+      Some(Right(reward(entity)))
+    }
     else {
-      ChessMonsterSpawner.spawnAround(entity, Some(entity.centralBlock), intensity(entity))(spawnerSettings)
+      ChessMonsterSpawner.spawnAround(entity, Some(entity.kingPos), intensity(entity))(spawnerSettings)
       None
     }
+  }
 
   override def intensity(entity: EntityOngoingRitual): Float = entity.ticksExisted / duration.toFloat
 
@@ -71,7 +81,7 @@ case class PatternRitual(
 
     val message = new TextComponentString(s"$remainingMinutes:$remainingSeconds")
     entity.world
-      .getEntitiesWithinAABB(classOf[EntityPlayer], new AxisAlignedBB(entity.centralBlock).grow(32D))
+      .getEntitiesWithinAABB(classOf[EntityPlayer], new AxisAlignedBB(entity.kingPos).grow(32D))
       .asScala
       .foreach(_.sendMessage(message))
   }

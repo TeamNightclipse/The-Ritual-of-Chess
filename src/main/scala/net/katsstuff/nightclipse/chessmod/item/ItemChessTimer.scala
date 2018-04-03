@@ -7,6 +7,7 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.player.{EntityPlayer, EntityPlayerMP}
 import net.minecraft.item.{ItemBlock, ItemStack}
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.text.TextComponentTranslation
 import net.minecraft.util.{EnumActionResult, EnumFacing, EnumHand, SoundCategory}
 import net.minecraft.world.World
 
@@ -28,7 +29,9 @@ class ItemChessTimer extends ItemChessBase(ChessNames.Items.ChessTimer) {
       if (!world.isRemote) {
         ChessMod.ritualHandler.activate(world, pos, player) match {
           case Right(entity) =>
+            entity.setPositionAndUpdate(pos.getX + 0.5D, pos.getY + 2.5D, pos.getZ + 0.5D)
             world.spawnEntity(entity)
+            player.sendMessage(new TextComponentTranslation("ritual.started"))
             EnumActionResult.SUCCESS
           case Left(error) =>
             player.sendMessage(error)

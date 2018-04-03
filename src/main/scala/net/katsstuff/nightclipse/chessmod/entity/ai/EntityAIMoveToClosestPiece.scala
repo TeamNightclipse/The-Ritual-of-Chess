@@ -46,7 +46,8 @@ class EntityAIMoveToClosestPiece(entity: EntityCreature, movementSpeed: Double) 
     entity.getNavigator.setPath(path, movementSpeed)
 
   def findNearestPiece: Option[BlockPos] = {
-    val volume = BlockPos.getAllInBox(pos.add(-24, -24, -24), pos.add(24, 24, 24)).asScala
+    val around = entity.getPosition
+    val volume = BlockPos.getAllInBox(around.add(-24, -24, -24), around.add(24, 24, 24)).asScala
 
     def closestPiece(vol: Iterable[BlockPos], block: Block): Option[BlockPos] =
       vol

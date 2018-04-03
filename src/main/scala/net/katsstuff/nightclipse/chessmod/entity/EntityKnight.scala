@@ -2,8 +2,9 @@ package net.katsstuff.nightclipse.chessmod.entity
 
 import scala.collection.JavaConverters._
 
-import net.katsstuff.nightclipse.chessmod.ChessNames
+import net.katsstuff.nightclipse.chessmod.{ChessMod, ChessNames, Piece, PieceColor, PieceType}
 import net.katsstuff.nightclipse.chessmod.entity.ai.{EntityAIBreakPiece, EntityAIMoveToClosestPiece}
+import net.katsstuff.nightclipse.chessmod.item.ItemPiece
 import net.minecraft.block.Block
 import net.minecraft.entity.ai._
 import net.minecraft.entity.monster.EntityMob
@@ -12,7 +13,7 @@ import net.minecraft.entity.{EnumCreatureAttribute, EnumCreatureType, SharedMons
 import net.minecraft.init.SoundEvents
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.{DamageSource, SoundEvent}
+import net.minecraft.util.{DamageSource, ResourceLocation, SoundEvent}
 import net.minecraft.world.World
 import net.minecraftforge.common.BiomeDictionary
 
@@ -66,6 +67,24 @@ class EntityKnight(_world: World, attackPieces: Boolean) extends EntityMob(_worl
     this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23D)
     this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(3D)
     this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(5D)
+  }
+
+  //FIXME
+  override def getLootTable: ResourceLocation =
+    ChessMod.resource("entities/knight")
+
+  override def dropLoot(wasRecentlyHit: Boolean, lootingModifier: Int, source: DamageSource): Unit = {
+    super.dropLoot(wasRecentlyHit, lootingModifier, source)
+
+    val color = if (rand.nextBoolean()) PieceColor.White else PieceColor.Black
+    if(!world.isRemote) {
+      entityDropItem(ItemPiece.stackOf(Piece(PieceType.Pawn, color)), 1)
+
+      if(rand.nextInt(100) == 0) {
+        entityDropItem(ItemPiece.stackOf(Piece(PieceType.King, color)), 1)
+      }
+    }
+
   }
 
   override protected def getAmbientSound: SoundEvent = SoundEvents.ENTITY_SKELETON_AMBIENT

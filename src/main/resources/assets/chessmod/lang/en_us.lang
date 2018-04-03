@@ -27,6 +27,7 @@ item.piece.rook.black.name=Black rook
 item.piece.knight.black.name=Black knight
 item.piece.bishop.black.name=Black bishop
 item.piece.pawn.black.name=Black pawn
+item.chess_timer.name=Chess timer
 
 tile.piece_king.name=King
 tile.piece_queen.name=Queen
@@ -42,3 +43,13 @@ effect.frenzy.rook=Rook Frenzy
 effect.frenzy.queen=Queen Frenzy
 
 entity.knight.name=Knight
+
+ritual.started=Started ritual
+ritual.cancel=Cancelled %s rituals
+ritual.error.noPatternFound=No ritual found for that pattern.
+ritual.error.wrongblocks.block=The correct blocks are not used for that ritual.
+ritual.error.wrongdirection=That ritual can not be used oriented in that way.
+ritual.error.multiplekings=Found multiple kings in the ritual.
+ritual.error.kingnotfound=A king was not found for the ritual.
+ritual.error.interrupted.king=The king was destroyed. The ritual has been cancelled.
+ritual.error.interrupted.specialblock=A special block was broken, which canceled the ritual.

@@ -3,6 +3,8 @@ package net.katsstuff.nightclipse.chessmod
 import scala.collection.JavaConverters._
 import scala.reflect.ClassTag
 
+import net.katsstuff.mirror.client.particles.GlowTexture
+import net.katsstuff.mirror.data.Vector3
 import net.katsstuff.mirror.misc.IdState
 import net.katsstuff.nightclipse.chessmod.block.{BlockChessTimer, BlockPiece}
 import net.katsstuff.nightclipse.chessmod.effects.{PotionFrenzy, PotionFrenzyBishop, PotionFrenzyQueen, PotionFrenzyRook}
@@ -12,6 +14,7 @@ import net.minecraft.block.Block
 import net.minecraft.entity.Entity
 import net.minecraft.item.Item
 import net.minecraft.potion.Potion
+import net.minecraft.world.World
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.registry.{EntityEntry, EntityEntryBuilder}
@@ -78,4 +81,28 @@ object CommonProxy {
 }
 class CommonProxy {
   def preInit(): Unit = {}
+
+  /**
+    * Spawns a glow particle on the client, accounting for client settings.
+    * @param world The world to render the particle in.
+    * @param pos The position to render the particle at.
+    * @param motion The motion to give to the particle.
+    * @param r The red color of the particle.
+    * @param g The green color of the particle.
+    * @param b The blue color of the particle.
+    * @param scale The scale of the particle.
+    * @param lifetime The lifetime of the particle.
+    * @param texture The texture of the particle.
+    */
+  def spawnParticleGlow(
+      world: World,
+      pos: Vector3,
+      motion: Vector3,
+      r: Float,
+      g: Float,
+      b: Float,
+      scale: Float,
+      lifetime: Int,
+      texture: GlowTexture
+  ): Unit = ()
 }

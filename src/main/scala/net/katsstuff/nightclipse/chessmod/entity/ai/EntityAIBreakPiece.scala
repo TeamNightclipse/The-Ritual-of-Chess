@@ -1,9 +1,13 @@
 package net.katsstuff.nightclipse.chessmod.entity.ai
 
+import scala.collection.JavaConverters._
+
 import net.katsstuff.nightclipse.chessmod.block.BlockPiece
 import net.minecraft.block.Block
 import net.minecraft.entity.EntityCreature
 import net.minecraft.entity.ai.EntityAIBase
+import net.minecraft.init.SoundEvents
+import net.minecraft.util.SoundCategory
 import net.minecraft.util.math.BlockPos
 
 //Based on EntityAIBreakDoor
@@ -16,26 +20,34 @@ class EntityAIBreakPiece(entity: EntityCreature) extends EntityAIBase {
   protected var pieceBlock:    BlockPiece = _
 
   override def shouldExecute(): Boolean = {
-    if (!entity.collidedHorizontally) false
-    else {
-      val path = entity.getNavigator.getPath
-      if (path != null && !path.isFinished) {
+    val path = entity.getNavigator.getPath
+    if (path != null && !path.isFinished) {
 
-        for (i <- 0 until Math.min(path.getCurrentPathIndex + 2, path.getCurrentPathIndex)) {
-          val pathpoint = path.getPathPointFromIndex(i)
-          piecePosition = new BlockPos(pathpoint.x, pathpoint.y + 1, pathpoint.z)
+      for (i <- 0 until Math.min(path.getCurrentPathIndex + 2, path.getCurrentPathIndex)) {
+        val pathpoint = path.getPathPointFromIndex(i)
+        piecePosition = new BlockPos(pathpoint.x, pathpoint.y, pathpoint.z)
 
-          if (entity.getDistanceSq(piecePosition.getX, entity.posY, piecePosition.getZ) <= 2.25D) {
-            pieceBlock = getBlockDoor(piecePosition)
-            if (pieceBlock != null) return true
+        if (entity.getDistanceSq(piecePosition.getX, entity.posY, piecePosition.getZ) <= 2.25D) {
+          getBlockDoor(piecePosition) match {
+            case Some((block, pos)) =>
+              pieceBlock = block
+              piecePosition = pos
+              return true
+            case None =>
           }
         }
+      }
 
-        piecePosition = new BlockPos(entity).up
-        pieceBlock = getBlockDoor(piecePosition)
-        pieceBlock != null
-      } else false
-    }
+      piecePosition = new BlockPos(entity)
+      getBlockDoor(piecePosition) match {
+        case Some((block, pos)) =>
+          pieceBlock = block
+          piecePosition = pos
+          true
+        case None =>
+          false
+      }
+    } else false
   }
 
   override def startExecuting(): Unit =
@@ -50,7 +62,9 @@ class EntityAIBreakPiece(entity: EntityCreature) extends EntityAIBase {
     entity.world.sendBlockBreakProgress(entity.getEntityId, piecePosition, -1)
 
   override def updateTask(): Unit = {
-    if (entity.getRNG.nextInt(20) == 0) entity.world.playEvent(1019, piecePosition, 0)
+    if (entity.getRNG.nextInt(20) == 0) {
+      entity.world.playSound(null, piecePosition, SoundEvents.BLOCK_STONE_HIT, SoundCategory.HOSTILE, 1F, 1F)
+    }
 
     breakingTime += 1
     val i = (breakingTime.toFloat / 240F * 10F).toInt
@@ -62,17 +76,16 @@ class EntityAIBreakPiece(entity: EntityCreature) extends EntityAIBase {
 
     if (breakingTime == 240) {
       entity.world.setBlockToAir(piecePosition)
-      entity.world.playEvent(1021, piecePosition, 0)
-      entity.world.playEvent(2001, piecePosition, Block.getIdFromBlock(pieceBlock))
+      entity.world.playSound(null, piecePosition, SoundEvents.BLOCK_STONE_BREAK, SoundCategory.HOSTILE, 1F, 1F)
+      this.entity.world.playEvent(2001, piecePosition, Block.getIdFromBlock(pieceBlock))
     }
   }
 
-  private def getBlockDoor(pos: BlockPos): BlockPiece = {
-    val state = entity.world.getBlockState(pos)
-    val block = state.getBlock
-    block match {
-      case piece: BlockPiece => piece
-      case _                 => null
-    }
+  private def getBlockDoor(pos: BlockPos): Option[(BlockPiece, BlockPos)] = {
+    BlockPos
+      .getAllInBox(pos.add(-1, -1, -1), pos.add(1, 1, 1))
+      .asScala
+      .map(pos => entity.world.getBlockState(pos).getBlock -> pos)
+      .collectFirst { case (piece: BlockPiece, boxPos) => piece -> boxPos }
   }
 }
