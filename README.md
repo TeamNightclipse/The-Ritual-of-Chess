@@ -5,16 +5,16 @@ The Ritual of Chess is POC for a magic system centered around chess pieces and f
 ## Getting started
 
 Okay, so when getting started with TRoC (The Ritual of Chess), you want to find a knight wandering around the world.
-[!Knight](knight.png)
+![Knight](knight.png)
 
 These sometimes drop chess pieces. Normally pawns.
-[!Pawn drop](dropPawn.png)
+![Pawn drop](dropPawn.png)
 
 But sometimes they might also drop a king piece.
-[!King drop](dropKing.png)
+![King drop](dropKing.png)
 
 Once you have your first king, you're almost ready to start using rituals. You just need a chess timer first. The timer is supposed to be crafted like so. Sadly we forgot to include the recipe in the ModJam release, so you'll have to get it some other way.
-[!Timer crafting](craftTimer.png)
+![Timer crafting](craftTimer.png)
 
 Now you finally have all your pieces, now you want to place them down in a specific pattern. To place a piece, hold shift, and then right click some surface. The different ritual patterns are detailed bellow.
 
@@ -33,19 +33,19 @@ Currently only sacrifice them for carnage. When you hold right click for a given
 
 ### Rituals
 **Reward**: Pawn piece
-[!Pawn ritual](ritualPawn.png)
+![Pawn ritual](ritualPawn.png)
 
 **Reward**: Bishop piece
-[!Bishop ritual](ritualBishop.png)
+![Bishop ritual](ritualBishop.png)
 
 **Reward**: Knight piece
-[!Knight ritual](ritualKnight.png)
+![Knight ritual](ritualKnight.png)
 
 **Reward**: Rook piece
-[!Rook ritual](ritualRook.png)
+![Rook ritual](ritualRook.png)
 
 **Reward**: Queen piece
-[!Queen ritual](ritualQueen.png)
+![Queen ritual](ritualQueen.png)
 
 ### Sacrifices
 * **Pawn**: Lot's of enemies will spawn for 15 seconds, then the effect of queen will activate.
