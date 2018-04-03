@@ -72,20 +72,6 @@ class EntityKnight(_world: World, attackPieces: Boolean) extends EntityMob(_worl
   override def getLootTable: ResourceLocation =
     ChessMod.resource("entities/knight")
 
-  override def dropLoot(wasRecentlyHit: Boolean, lootingModifier: Int, source: DamageSource): Unit = {
-    super.dropLoot(wasRecentlyHit, lootingModifier, source)
-
-    val color = if (rand.nextBoolean()) PieceColor.White else PieceColor.Black
-    if(!world.isRemote) {
-      entityDropItem(ItemPiece.stackOf(Piece(PieceType.Pawn, color)), 1)
-
-      if(rand.nextInt(100) == 0) {
-        entityDropItem(ItemPiece.stackOf(Piece(PieceType.King, color)), 1)
-      }
-    }
-
-  }
-
   override protected def getAmbientSound: SoundEvent = SoundEvents.ENTITY_SKELETON_AMBIENT
 
   override protected def getHurtSound(damageSourceIn: DamageSource): SoundEvent = SoundEvents.ENTITY_SKELETON_HURT

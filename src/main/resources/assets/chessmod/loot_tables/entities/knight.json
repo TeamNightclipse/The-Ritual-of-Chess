@@ -1,13 +1,93 @@
 {
   "pools": [
 	{
+	  "name": "chessmod:white_king",
+	  "rolls": 1,
+	  "entries": [
+		{
+		  "type": "item",
+		  "name": "chessmod:piece",
+		  "weight": 1,
+		  "functions": [
+			{
+			  "function": "set_nbt",
+			  "tag": "{white:1b,type:5b}"
+			},
+			{
+			  "function": "set_count",
+			  "count": {
+				"min": 1,
+				"max": 1
+			  }
+			},
+			{
+			  "function": "looting_enchant",
+			  "count": {
+				"min": 1,
+				"max": 1
+			  }
+			}
+		  ]
+		},
+        {
+          "type": "empty",
+          "weight": 100
+        }
+	  ],
+	  "conditions": [
+		{
+		  "condition": "killed_by_player"
+		}
+	  ]
+	},
+	{
+	  "name": "chessmod:black_king",
+	  "rolls": 1,
+	  "entries": [
+	    {
+		  "type": "item",
+		  "name": "chessmod:piece",
+		  "weight": 1,
+		  "functions": [
+			{
+			  "function": "set_nbt",
+			  "tag": "{white:0b,type:5b}"
+			},
+			{
+			  "function": "set_count",
+			  "count": {
+				"min": 1,
+				"max": 1
+			  }
+			},
+			{
+			  "function": "looting_enchant",
+			  "count": {
+				"min": 1,
+				"max": 1
+			  }
+			}
+		  ]
+		},
+        {
+          "type": "empty",
+          "weight": 200
+        }
+	  ],
+	  "conditions": [
+		{
+		  "condition": "killed_by_player"
+		}
+	  ]
+	},
+	{
 	  "name": "chessmod:white_pawn",
 	  "rolls": 1,
 	  "entries": [
 	    {
 		  "type": "item",
 		  "name": "chessmod:piece",
-		  "weight": 20,
+		  "weight": 10,
 		  "functions": [
 			{
 			  "function": "set_nbt",
@@ -47,7 +127,7 @@
 	    {
 		  "type": "item",
 		  "name": "chessmod:piece",
-		  "weight": 1,
+		  "weight": 10,
 		  "functions": [
 			{
 			  "function": "set_nbt",
@@ -56,7 +136,7 @@
 			{
 			  "function": "set_count",
 			  "count": {
-				"min": 0,
+				"min": 1,
 				"max": 1
 			  }
 			},
